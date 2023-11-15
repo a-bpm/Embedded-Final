@@ -4,35 +4,39 @@
 
 // Global constants
 
+// US pins
 const byte ULTRASONIC_ECHO = A0;
 const byte ULTRASONIC_TRIGGER = A1;
+
+// servo signal pin
 const byte SERVO_PIN = A2;
+
+// ir pin
 const byte IR_PIN = 12;
 
+// right motor pins
 const byte MOTOR_RIGHT_ENABLE = 5;
 const byte MOTOR_RIGHT_FORWARD = 4;
 const byte MOTOR_RIGHT_BACKWARD = 2;
 
+// left motor pins
 const byte MOTOR_LEFT_ENABLE = 6;
 const byte MOTOR_LEFT_FORWARD = 8;
 const byte MOTOR_LEFT_BACKWARD = 7;
 
-class Ultrasonic {
-    private:
-        byte _triggerPin;
-        byte _echoPin;
-        const unsigned long _maxDuration = 12 * 74 * 2;
-
-    public:
-        Ultrasonic();
-        Ultrasonic(byte);
-        Ultrasonic(byte, byte);
-        unsigned long measureTime();
-        double measureInch();
-        double measureCm();
-}; // end ultrasonic
 
 void setup() {
+    // set up console
+
+    // set up servo
+
+    // set up US
+
+    // set up Left Motor
+
+    // set up Right Motor
+  
+    // set up IR
 
     Serial.begin(9600);
     pinMode(SIG_PIN, OUTPUT);
@@ -51,67 +55,51 @@ void setup() {
 
 void loop() {
 
+  // look / measure
+
+  // process measurement
+
+  //determine measurement
+  if(left > 14 && Forward > 14 && Right > 14)
+  {
+    Finished
+  }
+
+  if(left > 7 && Forward > 14 && Right > 14)
+  {
+    Centered
+  }
+
+  if(left > 7 && Forward > 14 && Right > 14)
+  {
+    Left of Center
+  }
+
+  if(left > 7 && Forward > 14 && Right > 14)
+  {
+    Right of Centered
+  }
+
+  if(left > 14 && Forward > 14 && Right > 14)
+  {
+    Left Turn
+  }
+
+  if(left > 14 && Forward > 14 && Right > 14)
+  {
+    Right Turn
+  }
+
+
+
+  // turn based on measure
+
+  // move forward
+
+  
+
 }
 
-Ultrasonic::Ultrasonic() {
-    _triggerPin = 0;
-    _echoPin = 0;
-}
-
-Ultrasonic::Ultrasonic(byte pinNum) {
-    _triggerPin = pinNum;
-    _echoPin = pinNum;
-}
-
-Ultrasonic::Ultrasonic(byte sigPin, byte trigPin) {
-    _triggerPin = sigPin;
-    _echoPin = trigPin;
-}
-
-unsigned long Ultrasonic::measureTime() {
-    noInterrupts();
-
-    unsigned long duration = 0;
-
-    pinMode(_echoPin, OUTPUT);
-    pinMode(_triggerPin, OUTPUT);
-
-    digitalWrite(_triggerPin, LOW);
-    delayMicroseconds(5);
-    digitalWrite(_triggerPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(_triggerPin, LOW);
-
-    pinMode(_echoPin, INPUT);
-    duration = pulseIn(_echoPin, maxDuration);
-
-    interrupts();
-
-    if (duration > 0) {
-        duration /= 2;
-    }
-    return duration;
-}
-
-double Ultrasonic::measureInch() {
-    double inches = 0;
-    unsigned long duration = measureTime();
-    if (duration > 0) {
-        inches = duration / 74;
-    }
-    interrupted = false;
-    return inches;
-}
-
-double Ultrasonic::measureCm() {
-    double centimeters = 0;
-    unsigned long duration = measureTime();
-    if (duration > 0) {
-        centimeters = duration / 29.1;
-    }
-    interrupted = false;
-    return centimeters;
-}
 
 ISR(TIMER_OCF_vect) {
     interrupted = true;
