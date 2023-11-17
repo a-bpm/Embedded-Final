@@ -21,6 +21,7 @@ unsigned long Ultrasonic::measureTime() {
     unsigned long duration = 0;
 
     pinMode(_echoPin, OUTPUT);
+    //digitalWrite(_echoPin, LOW);
     pinMode(_triggerPin, OUTPUT);
 
     digitalWrite(_triggerPin, LOW);

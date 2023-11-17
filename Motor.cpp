@@ -19,4 +19,12 @@ void Motor::Motor::run(Motor::MotorDirection direction) {
       digitalWrite(_pin2, HIGH);
       analogWrite(_enable, _speed);
   }  // switch end
+
+void Motor::Motor::setSpeed(byte newSpeed) {
+
 }
+
+byte Motor::Motor::getSpeed() {
+  
+}
+

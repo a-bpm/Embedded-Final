@@ -15,7 +15,8 @@ class Motor {
             MotorReverse
         }; // end enum MotorDir
 
-        Motor() : _pin1{0}, _pin2{0}, _enable{0}, _speed{0} { }
+        Motor() : _pin1{0}, _pin2{0}, _enable{0}, _speed{0} { } 
+
         Motor(byte pin1, byte pin2, byte enable)
             : _pin1{pin1}, _pin2{pin2}, _enable{enable}, _speed{0}
         {
