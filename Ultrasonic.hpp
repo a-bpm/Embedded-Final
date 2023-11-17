@@ -9,8 +9,8 @@ class Ultrasonic {
 
     public:
         Ultrasonic();
-        Ultrasonic(byte);
-        Ultrasonic(byte, byte);
+        Ultrasonic(byte pinNum);
+        Ultrasonic(byte triggerPin, byte echoPin);
         unsigned long measureTime();
         double measureInch();
         double measureCm();

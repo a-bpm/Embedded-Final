@@ -10,9 +10,9 @@ Ultrasonic::Ultrasonic(byte pinNum) {
     _echoPin = pinNum;
 }
 
-Ultrasonic::Ultrasonic(byte sigPin, byte trigPin) {
-    _triggerPin = sigPin;
-    _echoPin = trigPin;
+Ultrasonic::Ultrasonic(byte triggerPin, byte echoPin) {
+    _triggerPin = triggerPin;
+    _echoPin = echoPin;
 }
 
 unsigned long Ultrasonic::measureTime() {

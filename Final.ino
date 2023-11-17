@@ -12,7 +12,7 @@ const byte ULTRASONIC_TRIGGER = A1;
 const byte SERVO_PIN = A2;
 
 // ir pin
-const byte IR_PIN = 12;
+const byte INFRARED_REMOTE_PIN = 12;
 
 // right motor pins
 const byte MOTOR_RIGHT_ENABLE = 5;
@@ -24,9 +24,14 @@ const byte MOTOR_LEFT_ENABLE = 6;
 const byte MOTOR_LEFT_FORWARD = 8;
 const byte MOTOR_LEFT_BACKWARD = 7;
 
+// Global Variables
+Ultrasonic ultrasonicSensor(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN);
+Servo servo;
+
 
 void setup() {
     // set up console
+    Serial.begin(9600);
 
     // set up servo
 
@@ -38,7 +43,6 @@ void setup() {
   
     // set up IR
 
-    Serial.begin(9600);
     pinMode(SIG_PIN, OUTPUT);
     pinMode(TRIG_PIN, OUTPUT);
     digitalWrite(SIG_PIN, LOW);
