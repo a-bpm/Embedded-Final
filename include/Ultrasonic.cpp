@@ -1,19 +1,11 @@
 #include "Ultrasonic.hpp"
 
-Ultrasonic::Ultrasonic() {
-    _triggerPin = 0;
-    _echoPin = 0;
-}
+Ultrasonic::Ultrasonic() : _triggerPin{0}, _echoPin{0} {}
 
-Ultrasonic::Ultrasonic(byte pinNum) {
-    _triggerPin = pinNum;
-    _echoPin = pinNum;
-}
+Ultrasonic::Ultrasonic(byte pinNum) : _triggerPin(pinNum), _echoPin{pinNum} {}
 
-Ultrasonic::Ultrasonic(byte triggerPin, byte echoPin) {
-    _triggerPin = triggerPin;
-    _echoPin = echoPin;
-}
+Ultrasonic::Ultrasonic(byte triggerPin, byte echoPin) 
+                      : _triggerPin{triggerPin}, _echoPin{echoPin} {}
 
 unsigned long Ultrasonic::measureTime() {
     noInterrupts();
@@ -21,7 +13,7 @@ unsigned long Ultrasonic::measureTime() {
     unsigned long duration = 0;
 
     pinMode(_echoPin, OUTPUT);
-    //digitalWrite(_echoPin, LOW);
+    digitalWrite(_echoPin, LOW);
     pinMode(_triggerPin, OUTPUT);
 
     digitalWrite(_triggerPin, LOW);
@@ -31,7 +23,7 @@ unsigned long Ultrasonic::measureTime() {
     digitalWrite(_triggerPin, LOW);
 
     pinMode(_echoPin, INPUT);
-    duration = pulseIn(_echoPin, maxDuration);
+    duration = pulseIn(_echoPin, _maxDuration);
 
     interrupts();
 
@@ -47,7 +39,7 @@ double Ultrasonic::measureInch() {
     if (duration > 0) {
         inches = duration / 74;
     }
-    interrupted = false;
+    // interrupted = false; TODO
     return inches;
 }
 
@@ -57,6 +49,6 @@ double Ultrasonic::measureCm() {
     if (duration > 0) {
         centimeters = duration / 29.1;
     }
-    interrupted = false;
+    // interrupted = false; TODO
     return centimeters;
 }

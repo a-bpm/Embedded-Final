@@ -15,5 +15,4 @@ class Ultrasonic {
         double measureInch();
         double measureCm();
 }; // end ultrasonic
-
 #endif // Ultrasonic
