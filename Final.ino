@@ -30,7 +30,10 @@ Ultrasonic ultrasonicSensor(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN);
 
 // Servo
 Servo neckServo;
-int position = 0;
+int FORWARDPOS = 0;
+int LEFTPOS = 0;
+int RIGHTPOS = 0;
+
 
 // Motors
   // set up Left Motor
@@ -82,79 +85,108 @@ void setup() {
 bool ultrasonicInterrupt = false;
 void loop() {
 
+  // loop A: (look forward, move, determine)
+
   if(ultrasonicInterrupt) {
 
   }
+  
+  servoLook.write(FORWARDPOS);                            //Set the servo to look straight ahead
+  delay(750);
+  int forwardDistance = ultrasonicSensor.measure();                   //Check that there are no objects ahead
+  if(forwardDistance >= stopDist)                        //If there are no objects within the stopping distance, move forward
+  {
+    moveForward();
+  }
+  while(forwardDistance >= stopDist)                     //Keep checking the object distance until it is within the minimum stopping distance
+  {
+    forwardDistance = ultrasonicSensor.measure();
+    delay(250);
+  }
+  else{
+    stopMove();                                     //Stop the motors
+    int turnDir = checkDirection();
+  }
+
+  switch(turnDirectionState)
+  {
+    case TURNLEFT:
+
+    case TURNRIGHT:
+  }
+  
+  
+  // loop B (look, determine, move):
+  
+  
   /// look around (I have a feeling we can somehow make this process into a for loop or robot class method called three times)
   // for(int i = 0; i > 2; i++ ) // we can make the poistion change in this too i think but we can make explicit changes as well
   // look left
     //position = *left*/;
     // turn neck left
     neckServo.write(position);
+
+    // delay to properly time the servo turn before US measure
+    delay(1300);
   
     // measurement
     unsigned long durationLeftLength = ultrasonicSensor.measureInch();
     
-    // delay
-    delay(1300);
+    // small delay to time servo after measurement
+    delay(130);
 
-    // get ready to turn left
-    //position = /*middle */
+    // get ready to turn middle
+    //position = /*middle */;
   
   // look middle
-    neckServo.write(position);
-  
-    // measurement
-    unsigned long durationMiddleLength = ultrasonicSensor.measureInch();
     
-    // delay
-    delay(1300);
-
-    // get ready to turn left
-    //position = /*right*/
   // look right
-    neckServo.write(position);
-  
-    // measurement
-    unsigned long durationRightLength = ultrasonicSensor.measureInch();
     
-    // delay
-    delay(1300);
-
   ///determine measurement
+
+
   /*
   if(left > 14 && Forward > 14 && Right > 14)
   {
     Finished
   }
 
-  if(left > 7 && Forward > 14 && Right > 14)
+  else if(left > 7 && Forward > 14 && Right > 14)
   {
     Centered
   }
 
-  if(left > 7 && Forward > 14 && Right > 14)
+  else if(left > 7 && Forward > 14 && Right > 14)
   {
     Left of Center
   }
 
-  if(left > 7 && Forward > 14 && Right > 14)
+  else if(left > 7 && Forward > 14 && Right > 14)
   {
     Right of Centered
   }
 
-  if(left > 14 && Forward > 14 && Right > 14)
+  else if(left > 14 && Forward > 14 && Right > 14)
   {
-    Left Turn
+    //Left Turn
+
+    left();
+    delay(500);
+    Stop();
+    delay(200);
   }
 
-  if(left > 14 && Forward > 14 && Right > 14)
+  else if(left > 14 && Forward > 14 && Right > 14)
   {
-    Right Turn
+    //Right Turn
+    right();
+    delay(500);
+    Stop();
+    delay(200);
   }
   */
 
-  // move
+/// move
 
   // turn based on measure (we can use enums for the movement states)
   //switch(state)
