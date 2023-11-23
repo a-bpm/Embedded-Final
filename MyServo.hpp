@@ -6,6 +6,7 @@
 
 #ifndef MYSERVO_HPP
 #define MYSERVO_HPP
+#include <Arduino.h>
 #include <Servo.h>
 
 class MyServo {
@@ -26,7 +27,7 @@ class MyServo {
         MyServo();
         MyServo(byte servoPin);
 
-        void look();
+        void look(MyServo::ServoDirection);
 
 
 

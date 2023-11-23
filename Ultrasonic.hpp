@@ -6,6 +6,7 @@
 
 #ifndef ULTRASONIC_HPP
 #define ULTRASONIC_HPP
+#include <Arduino.h>
 
 class Ultrasonic {
     private:

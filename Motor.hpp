@@ -6,6 +6,7 @@
 
 #ifndef MOTOR_HPP
 #define MOTOR_HPP
+#include <Arduino.h>
 
 class Motor {
     private: // _var denotes property variables

@@ -30,7 +30,7 @@ Robot::Robot():
     _eye(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN),
     _neck(SERVO_PIN)
     {
-        _irReceiver.begin(IR_RECEIVER_PIN, true)
+        _irReceiver.begin(IR_RECEIVER_PIN, true);
     }
 
 void Robot::stop() {

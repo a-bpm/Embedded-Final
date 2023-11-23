@@ -7,25 +7,25 @@
 #ifndef ROBOT_HPP
 #define ROBOT_HPP
 
+#include <Arduino.h>
 #include <IRremote.h>
-
 #include "Motor.hpp"
 #include "Ultrasonic.hpp"
 #include "MyServo.hpp"
 
-const byte MOTOR_RIGHT_ENABLE_PIN;
-const byte MOTOR_RIGHT_FORWARD_PIN;
-const byte MOTOR_RIGHT_BACKWARD_PIN;
+extern const byte MOTOR_RIGHT_ENABLE_PIN;
+extern const byte MOTOR_RIGHT_FORWARD_PIN;
+extern const byte MOTOR_RIGHT_BACKWARD_PIN;
 
-const byte MOTOR_LEFT_ENABLE_PIN;
-const byte MOTOR_LEFT_FORWARD_PIN;
-const byte MOTOR_LEFT_BACKWARD_PIN;
+extern const byte MOTOR_LEFT_ENABLE_PIN;
+extern const byte MOTOR_LEFT_FORWARD_PIN;
+extern const byte MOTOR_LEFT_BACKWARD_PIN;
 
-const byte ULTRASONIC_TRIGGER_PIN;
-const byte ULTRASONIC_ECHO_PIN;
+extern const byte ULTRASONIC_TRIGGER_PIN;
+extern const byte ULTRASONIC_ECHO_PIN;
 
-const byte SERVO_PIN;
-const byte IR_RECEIVER_PIN;
+extern const byte SERVO_PIN;
+extern const byte IR_RECEIVER_PIN;
 
 // how do we set up the pins for the robot, how do we call the constructors?
 class Robot {
