@@ -5,6 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "MyServo.hpp"
+#include <Arduino.h>
 
 MyServo::MyServo(byte servoPin) : _pin{servoPin} {
 

@@ -5,6 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Robot.hpp"
+
 // right motor pins
 const byte MOTOR_RIGHT_ENABLE_PIN = 5;
 const byte MOTOR_RIGHT_FORWARD_PIN = 4;
@@ -30,7 +31,7 @@ Robot::Robot():
     _eye(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN),
     _neck(SERVO_PIN)
     {
-        _irReceiver.begin(IR_RECEIVER_PIN, true);
+        //_irReceiver.begin(IR_RECEIVER_PIN, true);
     }
 
 void Robot::stop() {

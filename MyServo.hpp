@@ -6,8 +6,9 @@
 
 #ifndef MYSERVO_HPP
 #define MYSERVO_HPP
-#include <Arduino.h>
 #include <Servo.h>
+#include <Arduino.h>
+
 
 class MyServo {
     private:

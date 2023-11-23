@@ -8,7 +8,7 @@
 #define ROBOT_HPP
 
 #include <Arduino.h>
-#include <IRremote.h>
+//#include <IRremote.h> THIS IS BREAKING EVERYTHING, WHY????
 #include "Motor.hpp"
 #include "Ultrasonic.hpp"
 #include "MyServo.hpp"
@@ -34,7 +34,7 @@ class Robot {
         Motor _leftLeg;
         Ultrasonic _eye;
         MyServo _neck;
-        IRrecv _irReceiver; // Not sure how I wanna handle ANYTHING related to this
+        //IRrecv _irReceiver; // Not sure how I wanna handle ANYTHING related to this
     public:
       //constructors
         Robot();

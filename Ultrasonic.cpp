@@ -5,6 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Ultrasonic.hpp"
+#include <Arduino.h>
+
 
 Ultrasonic::Ultrasonic() : _triggerPin{0}, _echoPin{0} {}
 

@@ -5,6 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Motor.hpp"
+#include <Arduino.h>
 
 Motor::Motor() : _pin1{0}, _pin2{0}, _enablePin{0}, _speed{0} { } 
 
