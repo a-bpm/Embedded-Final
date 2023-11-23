@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+    Filename: Ultrasonic.cpp
+    Written by: Kevin Kostage and Andrew Bryan
+    Description: Does something?
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #include "Ultrasonic.hpp"
 
 Ultrasonic::Ultrasonic() : _triggerPin{0}, _echoPin{0} {}
@@ -5,7 +11,12 @@ Ultrasonic::Ultrasonic() : _triggerPin{0}, _echoPin{0} {}
 Ultrasonic::Ultrasonic(byte pinNum) : _triggerPin(pinNum), _echoPin{pinNum} {}
 
 Ultrasonic::Ultrasonic(byte triggerPin, byte echoPin) 
-                      : _triggerPin{triggerPin}, _echoPin{echoPin} {}
+                      : _triggerPin{triggerPin}, _echoPin{echoPin} {
+                            pinMode(_echoPin, OUTPUT);
+                            pinMode(_triggerPin, OUTPUT);
+                            digitalWrite(_triggerPin, LOW);
+                            digitalWrite(_echoPin, LOW);
+                      }
 
 unsigned long Ultrasonic::measureTime() {
     noInterrupts();

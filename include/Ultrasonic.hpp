@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+    Filename: Ultrasonic.hpp
+    Written by: Kevin Kostage and Andrew Bryan
+    Description: Does something?
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef ULTRASONIC_HPP
 #define ULTRASONIC_HPP
 

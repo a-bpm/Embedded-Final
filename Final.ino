@@ -1,70 +1,24 @@
-#include <Servo.h>
-#include <IRremote.h>
-#include "include/Ultrasonic.hpp"
-#include "include/Motor.hpp"
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+    Filename: Final.ino
+    Written by: Kevin Kostage and Andrew Bryan
+    Description: Does something?
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/// Global constants
-// Ultrasonic pins
-const byte ULTRASONIC_TRIGGER_PIN = A1;
-const byte ULTRASONIC_ECHO_PIN = A0;
-
-// servo signal pin
-const byte SERVO_PIN = A2;
-
-// ir pin
-const byte IR_RECEIVER_PIN = 12;
-
-// right motor pins
-const byte MOTOR_RIGHT_ENABLE_PIN = 5;
-const byte MOTOR_RIGHT_FORWARD_PIN = 4;
-const byte MOTOR_RIGHT_BACKWARD_PIN = 2;
-
-// left motor pins
-const byte MOTOR_LEFT_ENABLE_PIN = 6;
-const byte MOTOR_LEFT_FORWARD_PIN = 8;
-const byte MOTOR_LEFT_BACKWARD_PIN = 7;
+#include "include/Robot.hpp"
 
 /// Global Variables
-// Ultrasonic
-Ultrasonic ultrasonicSensor(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN);
 
 // Servo
 Servo neckServo;
 int FORWARDPOS = 0;
 int LEFTPOS = 0;
 int RIGHTPOS = 0;
+// move this into Robot class maybe?
 
-
-// Motors
-  // set up Left Motor
-Motor leftMotor;
-  // set up Right Motor
-Motor rightMotor;
   // set up speed and delay
-byte speed = 0;
-const int DELAY = 6 * 1000;
-
 void setup() {
     // set up console
     Serial.begin(9600);
-
-    // set up servo
-    neckServo.attach(SERVO_PIN, 500, 2500);
-    // set up US
-
-    // set up Motors
-    leftMotor = Motor(MOTOR_LEFT_FORWARD_PIN, MOTOR_LEFT_BACKWARD_PIN, MOTOR_LEFT_ENABLE_PIN);
-    rightMotor = Motor(MOTOR_RIGHT_FORWARD_PIN, MOTOR_RIGHT_BACKWARD_PIN, MOTOR_RIGHT_ENABLE_PIN);
-
-    // set up IR
-    IrReceiver.begin(IR_RECEIVER_PIN, true);
-
-    // ?
-    pinMode(ULTRASONIC_ECHO_PIN , OUTPUT);
-    pinMode(ULTRASONIC_TRIGGER_PIN, OUTPUT);
-    digitalWrite(ULTRASONIC_ECHO_PIN, LOW);
-    digitalWrite(ULTRASONIC_TRIGGER_PIN, LOW);
-
   // set up timer1 count
     TCNT1H = 0xF3;
     TCNT1L = 0xCB;
@@ -83,6 +37,11 @@ void setup() {
 }
 
 bool ultrasonicInterrupt = false;
+
+Robot car;
+byte speed = 0;
+const int DELAY = 6 * 1000;
+
 void loop() {
 
   // loop A: (look forward, move, determine)
@@ -104,7 +63,7 @@ void loop() {
     delay(250);
   }
   else{
-    stopMove();                                     //Stop the motors
+    stop();                                     //Stop the motors
     int turnDir = checkDirection();
   }
 

@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+    Filename: Motor.hpp
+    Written by: Kevin Kostage and Andrew Bryan
+    Description: Does something?
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef MOTOR_HPP
 #define MOTOR_HPP
 
