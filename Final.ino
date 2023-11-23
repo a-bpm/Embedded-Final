@@ -9,11 +9,13 @@
 /// Global Variables
 
 // Servo
+/*
 Servo neckServo;
 int FORWARDPOS = 0;
 int LEFTPOS = 0;
 int RIGHTPOS = 0;
 // move this into Robot class maybe?
+*/
 
   // set up speed and delay
 void setup() {
@@ -43,13 +45,14 @@ byte speed = 0;
 const int DELAY = 6 * 1000;
 
 void loop() {
+    /*
 
   // loop A: (look forward, move, determine)
 
   if(ultrasonicInterrupt) {
 
   }
-  
+  car._neck.look();
   servoLook.write(FORWARDPOS);                            //Set the servo to look straight ahead
   delay(750);
   int forwardDistance = ultrasonicSensor.measure();                   //Check that there are no objects ahead
@@ -81,7 +84,7 @@ void loop() {
   /// look around (I have a feeling we can somehow make this process into a for loop or robot class method called three times)
   // for(int i = 0; i > 2; i++ ) // we can make the poistion change in this too i think but we can make explicit changes as well
   // look left
-    //position = *left*/;
+    //position = left;
     // turn neck left
     neckServo.write(position);
 
@@ -95,7 +98,7 @@ void loop() {
     delay(130);
 
     // get ready to turn middle
-    //position = /*middle */;
+    //position = middle;
   
   // look middle
     
@@ -104,7 +107,7 @@ void loop() {
   ///determine measurement
 
 
-  /*
+  
   if(left > 14 && Forward > 14 && Right > 14)
   {
     Finished
@@ -143,10 +146,9 @@ void loop() {
     Stop();
     delay(200);
   }
-  */
+  
 
 /// move
-
   // turn based on measure (we can use enums for the movement states)
   //switch(state)
   
@@ -156,8 +158,10 @@ void loop() {
   rightMotor.run(Motor::MotorForward);
   delay(DELAY);
   
-}
+    
 
+    */
+}
 
 ISR(TIMER_OCF_vect) {
     ultrasonicInterrupt = true;
