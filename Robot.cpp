@@ -80,7 +80,7 @@ byte Robot::check_L_R_SideDirection(double frontMeasure) {
   return turnDir;
 }
 
-byte Robot::correctDirection() {
+//byte Robot::correctDirection() {
   // set up declare distances and direction variables
 
   // turn the neck to look left
@@ -119,7 +119,7 @@ byte Robot::correctDirection() {
     Centered
   }
   */
-}
+//}
 
 void Robot::stop() {
     _rightLeg.run(Motor::MotorDirection::MotorStop);

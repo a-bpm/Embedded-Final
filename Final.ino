@@ -92,7 +92,7 @@ void loop()
       // get the decision whether to turn left or right
       int turnDir = car.check_L_R_SideDirection(frontDistance);
       
-      /*// based on decision do said action
+      /*// based on decision do said action  fix me !!! :(
       switch(turnDir)
       {
         case 0: // Turn Left 

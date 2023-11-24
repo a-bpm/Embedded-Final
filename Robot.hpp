@@ -43,13 +43,13 @@ class Robot {
             LOOK_RIGHT_MID = 3,
             LOOK_RIGHT = 4
         };
-        
+
       //constructors
         Robot();
 
       // methods
 
-        // looking
+        // looking (turning servo doing specific delay and measuring the distance)
         double looking(MyServo::ServoDirection direction);
 
         // -checking left and right
@@ -59,7 +59,7 @@ class Robot {
         double measureDistance();
 
         // -dynamic
-        byte correctDirection();
+        //byte correctDirection();
         
         // movement
         void stop();
