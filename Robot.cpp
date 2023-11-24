@@ -45,11 +45,15 @@ void Robot::moveForward() {
 }
 
 void Robot::moveLeft() {
+    _rightLeg.setSpeed(_leftLeg.getSpeed() / 2);
+
     _rightLeg.run(Motor::MotorDirection::MotorForward);
     _leftLeg.run(Motor::MotorDirection::MotorForward);
 }
 
 void Robot::moveRight() {
+    _leftLeg.setSpeed(_rightLeg.getSpeed() / 2);
+
     _rightLeg.run(Motor::MotorDirection::MotorForward);
     _leftLeg.run(Motor::MotorDirection::MotorForward);
 }

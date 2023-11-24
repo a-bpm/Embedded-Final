@@ -8,15 +8,6 @@
 
 /// Global Variables
 
-// Servo
-/*
-Servo neckServo;
-int FORWARDPOS = 0;
-int LEFTPOS = 0;
-int RIGHTPOS = 0;
-// move this into Robot class maybe?
-*/
-
   // set up speed and delay
 void setup() {
     // set up console
@@ -154,8 +145,6 @@ void loop() {
   
   // move forward
   Serial.println("Forward...");
-  leftMotor.run(Motor::MotorForward);
-  rightMotor.run(Motor::MotorForward);
   delay(DELAY);
   
     

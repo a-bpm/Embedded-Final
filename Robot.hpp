@@ -8,7 +8,7 @@
 #define ROBOT_HPP
 
 #include <Arduino.h>
-//#include <IRremote.h> THIS IS BREAKING EVERYTHING, WHY????
+//#include <IRremote.hpp>
 #include "Motor.hpp"
 #include "Ultrasonic.hpp"
 #include "MyServo.hpp"
