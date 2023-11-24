@@ -34,36 +34,51 @@ Robot::Robot():
         //_irReceiver.begin(IR_RECEIVER_PIN, true);
     }
 
-byte Robot::checkDirection() {
-    // set up declare distances and direction variables
+// turning servo and getting measurement
+double Robot::looking(MyServo::ServoDirection direction) {
+  _neck.look(direction);                           //Set the servo to look @ desired direction
+  delay(750);  // delay for servo
 
-    // turn the neck to look left
-    //_neck.look(MyServo::ServoDirection::SERVO_LEFT)
-    // delay
-
-    // get the distance and assign it to a distance 1 value
-    //left = checkDistance();
-    // turn the neck to look right
-    //_neck.look(MyServo::ServoDirection::SERVO_RIGHT)
-    // delay
-
-    // get the distance and assign it to a distance 2 value
-    //right = checkDistance();
-    // determine direction to turn
-
-    /*
-
-    ///determine measurement
-    if(left <= 14 && front <=7 && Right > 14) { //Right Turn
-      turnDir = 1;
-    }
-    
-    else { //Left Turn
-      turnDir = 0;
-    }    
-    */
+  return measureDistance(); // return the measurement in inches
 }
 
+// US sensor
+double Robot::measureDistance() {
+  // declare variable
+  double distance = 0;
+  
+  // assign it to the measurement from the US eye in inches
+  distance = _eye.measureInch();
+
+  // print in console
+  Serial.print(distance);
+  Serial.print(" : Inches");
+
+  return distance;
+}
+
+// getting measurements on both sides and return which direction to turn based on measurement values
+byte Robot::check_L_R_SideDirection(double frontMeasure) {
+  // set up declare distances and direction variables
+  byte turnDir = 0;
+  double left;
+  double right;
+  
+  // turn the neck to look left and get the distance and assign it to a distance 1 value
+  left = looking(0); // left
+  
+  // turn the neck to look right and get the distance and assign it to a distance 2 value
+  right = looking(4); // right
+    
+  // determine direction to turn based on determined measurements
+  // if the right area is more open then do a...
+  if(left <= 14 && frontMeasure <=7 && right > 14) { //Right Turn
+    turnDir = 1;
+  }
+  
+  // return the direction for the switch
+  return turnDir;
+}
 
 byte Robot::correctDirection() {
   // set up declare distances and direction variables
