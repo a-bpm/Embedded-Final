@@ -38,13 +38,13 @@ byte Robot::checkDirection() {
     // set up declare distances and direction variables
 
     // turn the neck to look left
-    _neck.look(MyServo::ServoDirection::SERVO_LEFT)
+    //_neck.look(MyServo::ServoDirection::SERVO_LEFT)
     // delay
 
     // get the distance and assign it to a distance 1 value
     //left = checkDistance();
     // turn the neck to look right
-    _neck.look(MyServo::ServoDirection::SERVO_RIGHT)
+    //_neck.look(MyServo::ServoDirection::SERVO_RIGHT)
     // delay
 
     // get the distance and assign it to a distance 2 value
@@ -69,17 +69,17 @@ byte Robot::correctDirection() {
   // set up declare distances and direction variables
 
   // turn the neck to look left
-  _neck.look(MyServo::ServoDirection::SERVO_LEFT)
+  //_neck.look(MyServo::ServoDirection::SERVO_LEFT)
   // delay
 
   // get the distance and assign it to a distance 1 value
-  left = checkDistance();
+  //left = checkDistance();
   // turn the neck to look right
-  _neck.look(MyServo::ServoDirection::SERVO_RIGHT)
+  //_neck.look(MyServo::ServoDirection::SERVO_RIGHT)
   // delay
 
   // get the distance and assign it to a distance 2 value
-  right = checkDistance();
+  //right = checkDistance();
   // determine direction to turn
 
   // determine measurement
