@@ -42,16 +42,22 @@ class Robot {
       // methods
 
         // looking
-        int checkDirection();
+        // -stationary
+        byte checkDirection();
+
+        // -dynamic
+        byte correctDirection();
         
         // movement
         void stop();
 
+        // -dynamic
         void moveForward();
         void moveRight();
         void moveLeft();
         void moveReverse();
 
+        // -stationary
         void orientStart();
         void orientLeft();
         void orientRight();

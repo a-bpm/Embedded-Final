@@ -45,11 +45,11 @@ byte speed = 0;
 const int DELAY = 6 * 1000;
 
 void loop() {
-    /*
-
-  // loop A: (look forward, move, determine)
-
+  /*
   if(ultrasonicInterrupt) {
+    checkDirection
+
+    ultrasonicInterrupt = false;
 
   }
   car._neck.look();
@@ -76,91 +76,7 @@ void loop() {
 
     case TURNRIGHT:
   }
-  
-  
-  // loop B (look, determine, move):
-  
-  
-  /// look around (I have a feeling we can somehow make this process into a for loop or robot class method called three times)
-  // for(int i = 0; i > 2; i++ ) // we can make the poistion change in this too i think but we can make explicit changes as well
-  // look left
-    //position = left;
-    // turn neck left
-    neckServo.write(position);
-
-    // delay to properly time the servo turn before US measure
-    delay(1300);
-  
-    // measurement
-    unsigned long durationLeftLength = ultrasonicSensor.measureInch();
-    
-    // small delay to time servo after measurement
-    delay(130);
-
-    // get ready to turn middle
-    //position = middle;
-  
-  // look middle
-    
-  // look right
-    
-  ///determine measurement
-
-
-  
-  if(left > 14 && Forward > 14 && Right > 14)
-  {
-    Finished
-  }
-
-  else if(left > 7 && Forward > 14 && Right > 14)
-  {
-    Centered
-  }
-
-  else if(left > 7 && Forward > 14 && Right > 14)
-  {
-    Left of Center
-  }
-
-  else if(left > 7 && Forward > 14 && Right > 14)
-  {
-    Right of Centered
-  }
-
-  else if(left > 14 && Forward > 14 && Right > 14)
-  {
-    //Left Turn
-
-    left();
-    delay(500);
-    Stop();
-    delay(200);
-  }
-
-  else if(left > 14 && Forward > 14 && Right > 14)
-  {
-    //Right Turn
-    right();
-    delay(500);
-    Stop();
-    delay(200);
-  }
-  
-
-/// move
-  // turn based on measure (we can use enums for the movement states)
-  //switch(state)
-  
-  // move forward
-  Serial.println("Forward...");
-  leftMotor.run(Motor::MotorForward);
-  rightMotor.run(Motor::MotorForward);
-  delay(DELAY);
-  
-    
-
-    */
+*/
 }
 
 ISR(TIMER_OCF_vect) {
