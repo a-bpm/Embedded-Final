@@ -17,7 +17,7 @@ Motor::Motor(byte pin1, byte pin2, byte enable)
     } // end Motor prop constructor
 
 void Motor::Motor::run(Motor::MotorDirection direction) {
-    switch (direction) {
+    switch(direction) {
         case Motor::MotorStop:
             digitalWrite(_pin1, LOW);
             digitalWrite(_pin2, LOW);

@@ -33,27 +33,28 @@ class Robot {
         Motor _leftLeg;
         Ultrasonic _eye;
         MyServo _neck;
+        byte _speed;
         //IRrecv _irReceiver; // Not sure how I wanna handle ANYTHING related to this
     public:
       // specify the look trajectory for coresponding robot
-        enum LookDirection {
-            LOOK_LEFT = 0,
-            LOOK_LEFT_MID = 1,
-            LOOK_MID = 2,
-            LOOK_RIGHT_MID = 3,
-            LOOK_RIGHT = 4
+        enum RobotDirection {
+            ROBOT_LEFT = 0,
+            ROBOT_LEFT_MID = 1,
+            ROBOT_MID = 2,
+            ROBOT_RIGHT_MID = 3,
+            ROBOT_RIGHT = 4
         };
 
       //constructors
-        Robot();
+        Robot(byte speed);
 
       // methods
 
         // looking (turning servo doing specific delay and measuring the distance)
-        double looking(MyServo::ServoDirection direction);
+        double scanDirection(RobotDirection direction);
 
         // -checking left and right
-        byte check_L_R_SideDirection(double frontMeasure);
+        byte getTurnDirection(double frontMeasure);
 
         // US
         double measureDistance();
@@ -73,9 +74,9 @@ class Robot {
         
 
         // -stationary
-        void orientStart();
         void orientLeft();
         void orientRight();
+        void orient180();
 
 }; // end Robot
 #endif // End ROBOT_HPP
