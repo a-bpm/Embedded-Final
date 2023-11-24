@@ -42,8 +42,13 @@ class Robot {
       // methods
 
         // looking
-        // -stationary
-        byte checkDirection();
+        double looking(MyServo::ServoDirection direction);
+
+        // -checking left and right
+        byte check_L_R_SideDirection(double frontMeasure);
+
+        // US
+        double measureDistance();
 
         // -dynamic
         byte correctDirection();
@@ -51,11 +56,13 @@ class Robot {
         // movement
         void stop();
 
-        // -dynamic
+        // -dynamic 
         void moveForward();
+        void moveReverse();
+        // keep in mind may not be feasible because prof allen says its too hard
         void moveRight();
         void moveLeft();
-        void moveReverse();
+        
 
         // -stationary
         void orientStart();
