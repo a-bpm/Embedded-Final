@@ -29,11 +29,11 @@ extern const byte IR_RECEIVER_PIN;
 
 class Robot {
     private:
-        Motor _rightLeg;
-        Motor _leftLeg;
-        Ultrasonic _eye;
-        MyServo _neck;
-        byte _speed;
+        Motor *_rightLeg;
+        Motor *_leftLeg;
+        Ultrasonic *_eye;
+        MyServo *_neck;
+        byte *_speed;
         //IRrecv _irReceiver; // Not sure how I wanna handle ANYTHING related to this
     public:
       // specify the look trajectory for coresponding robot
@@ -46,6 +46,7 @@ class Robot {
         };
 
       //constructors
+        Robot();
         Robot(byte speed);
 
       // methods

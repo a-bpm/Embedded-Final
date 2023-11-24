@@ -10,10 +10,25 @@
     // hard coded stop distance
 const byte DISTANCE_THRESHOLD = 7;
 
+// hard variables
+byte speed = 200;
+Robot *car = NULL;
+const int DELAY = 2 * 1000;
+Motor leftMotor;
+Motor rightMotor;
+
+Servo servo;
   // set up speed and delay
 void setup() {
     // set up console
     Serial.begin(9600);
+
+    car = new Robot(speed);
+    Serial.println("Made car");
+    servo.attach(A2);
+    leftMotor = Motor(4, 2, 5);
+    rightMotor = Motor(8, 7, 6);
+    /*
   // set up timer1 count
     TCNT1H = 0xF3;
     TCNT1L = 0xCB;
@@ -29,16 +44,10 @@ void setup() {
 
   // enable global interupts
     interrupts();
+    */
 }
 
 bool ultrasonicInterrupt = true;
-
-// hard variables
-byte speed = 100;
-Robot car = Robot(speed);
-const int DELAY = 5 * 1000;
-
-
 // global count for the correction durring movement
 int count = 0;
 
@@ -51,13 +60,43 @@ void loop()
   if (debugging)
   {
     Serial.println("Stop!");
-    car.stop();
-    Serial.println("Stopped and wait5s");
+    leftMotor.setSpeed(150);
+    rightMotor.setSpeed(150);
+    leftMotor.run(1);
+    rightMotor.run(2);
+    //car->stop();
+    delay(DELAY);
+    delay(DELAY);
+    delay(DELAY);
+    servo.write(0);
+    delay(DELAY);
+    delay(DELAY);
+    servo.write(90);
+    delay(DELAY);
+    delay(DELAY);
+    servo.write(180);
+    delay(DELAY);
     delay(DELAY);
 
+    car->scanDirection(0);
+    delay(DELAY);
+    car->scanDirection(1);
+    delay(DELAY);
+    car->scanDirection(2);
+    delay(DELAY);
+    car->scanDirection(3);
+    delay(DELAY);
+    car->scanDirection(4);
+    delay(DELAY);
+
+    delay(DELAY);
+    delay(DELAY);
+    delay(DELAY);
     Serial.println("Start Forward!");
-    car.moveForward();
+    //car->moveForward();
     Serial.println("Going Forward!");
+    delay(DELAY);
+    //car->moveReverse();
     delay(DELAY);
     /*
     car.moveRight();
@@ -74,7 +113,7 @@ void loop()
     car.scanDirection(2);
     */
 
-  }
+  } /*
   else // main loop
   {
     // ir button trigger flag to override loop and take control
@@ -127,7 +166,7 @@ void loop()
               break;
       }
     }
-  }
+  } */
 }
 
 ISR(TIMER_OCF_vect) {
