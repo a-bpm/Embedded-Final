@@ -35,6 +35,15 @@ class Robot {
         MyServo _neck;
         //IRrecv _irReceiver; // Not sure how I wanna handle ANYTHING related to this
     public:
+      // specify the look trajectory for coresponding robot
+        enum LookDirection {
+            LOOK_LEFT = 0,
+            LOOK_LEFT_MID = 1,
+            LOOK_MID = 2,
+            LOOK_RIGHT_MID = 3,
+            LOOK_RIGHT = 4
+        };
+        
       //constructors
         Robot();
 

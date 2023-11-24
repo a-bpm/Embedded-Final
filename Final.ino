@@ -31,10 +31,12 @@ void setup() {
 
 bool ultrasonicInterrupt = false;
 
+// car variable
 Robot car;
+
+// hard variables
 byte speed = 0;
 const int DELAY = 6 * 1000;
-
 
 // testing variable for sandbox loop
 bool test = 0;
@@ -48,9 +50,6 @@ void loop()
   if (test)
   {
 
-
-
-
   }
   // main loop
   else 
@@ -60,14 +59,14 @@ void loop()
     {
       //checkDirection
 
+      // turn off flag
       ultrasonicInterrupt = false;
-
     }
     // hard coded stop distance
     double stopDist = 7;
 
     // look forward and get distance
-    double frontDistance = car.looking(2);                   //Check that there are no objects ahead
+    double frontDistance = car.looking((int)Robot::LookDirection::LOOK_MID);                   //Check that there are no objects ahead
   
     if(frontDistance >= stopDist)                        //If there are no objects within the stopping distance, move forward
     {
@@ -80,7 +79,9 @@ void loop()
 
       if (count % 5)
       {
-        
+        car.looking((int)Robot::LookDirection::LOOK_LEFT); // look left
+
+        car.looking((int)Robot::LookDirection::LOOK_LEFT); // look right
       }
     }
 

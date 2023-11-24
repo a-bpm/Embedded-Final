@@ -65,10 +65,10 @@ byte Robot::check_L_R_SideDirection(double frontMeasure) {
   double right;
   
   // turn the neck to look left and get the distance and assign it to a distance 1 value
-  left = looking(0); // left
+  left = looking((int)Robot::LookDirection::LOOK_LEFT); // left
   
   // turn the neck to look right and get the distance and assign it to a distance 2 value
-  right = looking(4); // right
+  right = looking((int)Robot::LookDirection::LOOK_RIGHT); // right
     
   // determine direction to turn based on determined measurements
   // if the right area is more open then do a...
