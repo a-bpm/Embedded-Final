@@ -27,7 +27,7 @@ class Motor {
 
         byte getSpeed();
         void setSpeed(byte speed);
-        void run(MotorDirection direction);
+        void run(int direction);
 
 }; // end motor
 #endif

@@ -11,7 +11,7 @@
 
 class MyServo {
     private:
-        Servo _servo;
+        Servo *_servo;
         byte _pin;
         const byte _SERVO_SPEED;
 

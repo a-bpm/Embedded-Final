@@ -10,10 +10,21 @@
     // hard coded stop distance
 const byte DISTANCE_THRESHOLD = 7;
 
+// hard variables
+byte speed = 200;
+Robot *car = NULL;
+const int DELAY = 2 * 1000;
+
+Servo servo;
   // set up speed and delay
 void setup() {
     // set up console
     Serial.begin(9600);
+
+    car = new Robot(speed);
+    Serial.println("Made car");
+    servo.attach(A2);
+    /*
   // set up timer1 count
     TCNT1H = 0xF3;
     TCNT1L = 0xCB;
@@ -29,16 +40,10 @@ void setup() {
 
   // enable global interupts
     interrupts();
+    */
 }
 
 bool ultrasonicInterrupt = true;
-
-// hard variables
-byte speed = 100;
-Robot car = Robot(speed);
-const int DELAY = 5 * 1000;
-
-
 // global count for the correction durring movement
 int count = 0;
 
@@ -50,31 +55,33 @@ void loop()
   // test loop
   if (debugging)
   {
-    Serial.println("Stop!");
-    car.stop();
-    Serial.println("Stopped and wait5s");
+    car->moveForward();
+        delay(DELAY);
+
+    car->stop();
     delay(DELAY);
 
-    Serial.println("Start Forward!");
-    car.moveForward();
-    Serial.println("Going Forward!");
+    servo.write(0);
     delay(DELAY);
-    /*
-    car.moveRight();
-    car.moveLeft();
-    car.moveReverse();
-    car.orientLeft();
-    car.orientRight();
-    car.orient180();
-    car.orient180();
-    car.orientRight();
+    servo.write(90);
+    delay(DELAY);
+    servo.write(180);
+    delay(DELAY);
+    car->moveReverse();
+        delay(DELAY);
 
-    car.scanDirection(0);
-    car.scanDirection(1);
-    car.scanDirection(2);
-    */
 
-  }
+ /*
+    car->moveRight();
+    car->moveLeft();
+    car->moveReverse();
+    car->orientLeft();
+    car->orientRight();
+    car->orient180();
+    car->orient180();
+    car->orientRight();
+*/
+  } /*
   else // main loop
   {
     // ir button trigger flag to override loop and take control
@@ -127,7 +134,7 @@ void loop()
               break;
       }
     }
-  }
+  } */
 }
 
 ISR(TIMER_OCF_vect) {
