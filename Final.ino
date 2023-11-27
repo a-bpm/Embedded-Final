@@ -14,8 +14,6 @@ const byte DISTANCE_THRESHOLD = 7;
 byte speed = 200;
 Robot *car = NULL;
 const int DELAY = 2 * 1000;
-Motor leftMotor;
-Motor rightMotor;
 
 Servo servo;
   // set up speed and delay
@@ -26,8 +24,6 @@ void setup() {
     car = new Robot(speed);
     Serial.println("Made car");
     servo.attach(A2);
-    leftMotor = Motor(4, 2, 5);
-    rightMotor = Motor(8, 7, 6);
     /*
   // set up timer1 count
     TCNT1H = 0xF3;
@@ -59,60 +55,32 @@ void loop()
   // test loop
   if (debugging)
   {
-    Serial.println("Stop!");
-    leftMotor.setSpeed(150);
-    rightMotor.setSpeed(150);
-    leftMotor.run(1);
-    rightMotor.run(2);
-    //car->stop();
+    car->moveForward();
+        delay(DELAY);
+
+    car->stop();
     delay(DELAY);
-    delay(DELAY);
-    delay(DELAY);
+
     servo.write(0);
-    delay(DELAY);
     delay(DELAY);
     servo.write(90);
     delay(DELAY);
-    delay(DELAY);
     servo.write(180);
     delay(DELAY);
-    delay(DELAY);
+    car->moveReverse();
+        delay(DELAY);
 
-    car->scanDirection(0);
-    delay(DELAY);
-    car->scanDirection(1);
-    delay(DELAY);
-    car->scanDirection(2);
-    delay(DELAY);
-    car->scanDirection(3);
-    delay(DELAY);
-    car->scanDirection(4);
-    delay(DELAY);
 
-    delay(DELAY);
-    delay(DELAY);
-    delay(DELAY);
-    Serial.println("Start Forward!");
-    //car->moveForward();
-    Serial.println("Going Forward!");
-    delay(DELAY);
-    //car->moveReverse();
-    delay(DELAY);
-    /*
-    car.moveRight();
-    car.moveLeft();
-    car.moveReverse();
-    car.orientLeft();
-    car.orientRight();
-    car.orient180();
-    car.orient180();
-    car.orientRight();
-
-    car.scanDirection(0);
-    car.scanDirection(1);
-    car.scanDirection(2);
-    */
-
+ /*
+    car->moveRight();
+    car->moveLeft();
+    car->moveReverse();
+    car->orientLeft();
+    car->orientRight();
+    car->orient180();
+    car->orient180();
+    car->orientRight();
+*/
   } /*
   else // main loop
   {

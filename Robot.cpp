@@ -132,7 +132,7 @@ void Robot::stop() {
 }
 
 void Robot::moveForward() {
-  _rightLeg->run(Motor::MotorReverse);
+  _rightLeg->run(Motor::MotorForward);
   _leftLeg->run(Motor::MotorForward);
 }
 
