@@ -16,21 +16,21 @@ Motor::Motor(byte pin1, byte pin2, byte enable)
         pinMode(_enablePin, OUTPUT);
     } // end Motor prop constructor
 
-void Motor::Motor::run(Motor::MotorDirection direction) {
+void Motor::Motor::run(int direction) {
     switch(direction) {
-        case Motor::MotorStop:
+        case 0:
             digitalWrite(_pin1, LOW);
             digitalWrite(_pin2, LOW);
             digitalWrite(_enablePin, LOW);
             break;
 
-        case Motor::MotorForward:
+        case 1:
             digitalWrite(_pin1, HIGH);
             digitalWrite(_pin2, LOW);
             analogWrite(_enablePin, _speed);
             break;
 
-        case Motor::MotorReverse:
+        case 2:
             digitalWrite(_pin1, LOW);
             digitalWrite(_pin2, HIGH);
             analogWrite(_enablePin, _speed);
