@@ -23,38 +23,32 @@ const byte ULTRASONIC_ECHO_PIN = A0;
 const byte SERVO_PIN = A2;
 const byte IR_RECEIVER_PIN = 12;
 
+const unsigned int SERVO_DELAY = 600; // servo completes in 550
+
 Robot::Robot() {}
 
 Robot::Robot(byte speed)
-    : _rightLeg{new Motor(MOTOR_RIGHT_FORWARD_PIN, MOTOR_RIGHT_BACKWARD_PIN,
-                MOTOR_RIGHT_ENABLE_PIN)},
-      _leftLeg{new Motor(MOTOR_LEFT_FORWARD_PIN, MOTOR_LEFT_BACKWARD_PIN,
-               MOTOR_LEFT_ENABLE_PIN)},
-      _eye{new Ultrasonic(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN)},
-      _neck{new MyServo(SERVO_PIN)},
-      _speed{speed}
-{
+: _rightLeg{new Motor(MOTOR_RIGHT_FORWARD_PIN, MOTOR_RIGHT_BACKWARD_PIN,
+                      MOTOR_RIGHT_ENABLE_PIN)},
+_leftLeg{new Motor(MOTOR_LEFT_FORWARD_PIN, MOTOR_LEFT_BACKWARD_PIN,
+                      MOTOR_LEFT_ENABLE_PIN)},
+_eye{new Ultrasonic(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN)},
+_neck{MyServo(SERVO_PIN, SERVO_DELAY)},
+_speed{speed} {
     _leftLeg->setSpeed(_speed);
     _rightLeg->setSpeed(_speed);
   //_irReceiver.begin(IR_RECEIVER_PIN, true);
-}
+} // end Robot constructor
 
 // turning servo and getting measurement
 double Robot::scanDirection(RobotDirection direction) {
-  _neck->look(direction); // Set the servo to look @ desired direction
+  _neck.look(direction); // Set the servo to look @ desired direction
   double distance = _eye->measureInch();
 
-  // print in console
   Serial.print(distance);
-  Serial.print(" : Inches");
+  Serial.println(" inches");
 
   return distance;
-}
-
-// US sensor
-double Robot::measureDistance() {
-  // declare variable
-  // assign it to the measurement from the US eye in inches
 }
 
 // getting measurements on both sides and return which direction to turn based
@@ -82,46 +76,48 @@ byte Robot::getTurnDirection(double frontDistance) {
   return turnDir;
 }
 
-// byte Robot::correctDirection() {
-//  set up declare distances and direction variables
-
-// turn the neck to look left
-//_neck.look(MyServo::ServoDirection::SERVO_LEFT)
-// delay
-
-// get the distance and assign it to a distance 1 value
-// left = checkDistance();
-// turn the neck to look right
-//_neck.look(MyServo::ServoDirection::SERVO_RIGHT)
-// delay
-
-// get the distance and assign it to a distance 2 value
-// right = checkDistance();
-// determine direction to turn
-
-// determine measurement
 /*
-if(left > 14 && Forward > 14 && Right > 14)
-{
-  Finished
-}
+   byte Robot::correctDirection() {
+   set up declare distances and direction variables
 
-else if(left < 7 && Forward > 14 && Right > 7)
-{
-  Left of Center
-}
+   turn the neck to look left
+   _neck.look(MyServo::ServoDirection::SERVO_LEFT)
+   delay
 
-else if(left > 7 && Forward > 14 && Right < 14)
-{
-  Right of Centered
-}
+   get the distance and assign it to a distance 1 value
+   left = checkDistance();
+   turn the neck to look right
+   _neck.look(MyServo::ServoDirection::SERVO_RIGHT)
+   delay
 
-else // (left > 7 && Forward > 14 && Right > 7)
-{
-  Centered
-}
+   get the distance and assign it to a distance 2 value
+   right = checkDistance();
+   determine direction to turn
+
+   determine measurement
+   if(left > 14 && Forward > 14 && Right > 14)
+   {
+   Finished
+   }
+
+   else if(left < 7 && Forward > 14 && Right > 7)
+   {
+   Left of Center
+   }
+
+   else if(left > 7 && Forward > 14 && Right < 14)
+   {
+   Right of Centered
+   }
+
+   else // (left > 7 && Forward > 14 && Right > 7)
+   {
+   Centered
+   }
+   }
 */
-//}
+
+// TODO: Get accurate timings for turning
 
 void Robot::stop() {
   Serial.println("Stopping right...");
@@ -145,7 +141,7 @@ void Robot::moveLeft() {
   _rightLeg->setSpeed(_leftLeg->getSpeed() / 2);
   _rightLeg->run(Motor::MotorForward);
   _leftLeg->run(Motor::MotorForward);
-  delay(150);
+  delay(100);
   _rightLeg->setSpeed(_leftLeg->getSpeed());
 }
 
@@ -154,24 +150,30 @@ void Robot::moveRight() {
 
   _rightLeg->run(Motor::MotorDirection::MotorForward);
   _leftLeg->run(Motor::MotorDirection::MotorForward);
-  delay(150);
+  delay(100);
   _leftLeg->setSpeed(_rightLeg->getSpeed());
 }
 
 void Robot::orientLeft() {
   _rightLeg->run(Motor::MotorDirection::MotorForward);
   _leftLeg->run(Motor::MotorDirection::MotorReverse);
-  delay(250);
+  delay(100);
 }
 
 void Robot::orientRight() {
   _rightLeg->run(Motor::MotorDirection::MotorForward);
   _leftLeg->run(Motor::MotorDirection::MotorReverse);
-  delay(250);
+  delay(100);
 }
 
 void Robot::orient180() {
   _rightLeg->run(Motor::MotorDirection::MotorForward);
   _leftLeg->run(Motor::MotorDirection::MotorReverse);
-  delay(500);
+  delay(100);
+}
+
+// US sensor
+double Robot::measureDistance() {
+  // declare variable
+  // assign it to the measurement from the US eye in inches
 }

@@ -8,63 +8,62 @@
 #include <Servo.h>
 #include <Arduino.h>
 
-MyServo::MyServo() : _pin{0}, _SERVO_SPEED(0) {
+MyServo::MyServo() 
+: _pin{0}, _servoDelay(0) {
 
 }
 
-MyServo::MyServo(byte servoPin) : _servo{new Servo()}, _pin{servoPin}, _SERVO_SPEED{7} {
-    _servo->detach();
+MyServo::MyServo(byte servoPin, byte servoDelay)
+: _servo{}, _pin{servoPin}, _servoDelay{servoDelay} {
+    _servo.detach();
 }
 
-void MyServo::look(byte positionIndex) { // TODO: function pointer here
-    _servo->attach(_pin);
-    int dynamicDelay = 1300;
-    Serial.print("Look Index :");
-    Serial.println(positionIndex);
-   switch(positionIndex) {
-       case SERVO_POSITION_1:
-            _servo->write(SERVO_LEFT);
-            dynamicDelay = getServoDelay(SERVO_LEFT);
-            Serial.println("Pos 1");
+void MyServo::look(byte positionIndex) {
+    _servo.attach(_pin);
+    switch(positionIndex) {
+        case SERVO_POSITION_1:
+            moveAndDelay(SERVO_LEFT);
             break;
 
         case SERVO_POSITION_2:
-            _servo->write(SERVO_LEFT_MID);
-            dynamicDelay = getServoDelay(SERVO_LEFT_MID);
-            Serial.println("Pos 2");
-
+            moveAndDelay(SERVO_LEFT_MID);
             break;
 
         case SERVO_POSITION_3:
-            _servo->write(SERVO_MID);
-            dynamicDelay = getServoDelay(SERVO_MID);
-            Serial.println("Pos 3");
-
+            moveAndDelay(SERVO_MID);
             break;
 
         case SERVO_POSITION_4:
-            _servo->write(SERVO_RIGHT_MID);
-            dynamicDelay = getServoDelay(SERVO_RIGHT_MID);
-            Serial.println("Pos 4");
-
+            moveAndDelay(SERVO_RIGHT_MID);
             break;
 
         case SERVO_POSITION_5:
-            _servo->write(SERVO_RIGHT);
-            dynamicDelay = getServoDelay(SERVO_RIGHT);
-            Serial.println("Pos 5");
-   }
-   delay(dynamicDelay); // TODO: Do I have to detach before I wait? or after
-   _servo->detach();
+            moveAndDelay(SERVO_RIGHT);
+    }
+    _servo.detach();
 }
 
-int MyServo::getServoDelay(byte newPosition) {
-    byte currentPosition = _servo->read();
-    int delta = 0;
-    if (newPosition >= currentPosition) {
-        delta = newPosition - currentPosition;
-    } else {
-        delta = currentPosition - newPosition;
-    }
-    return (delta * _SERVO_SPEED);
+inline void MyServo::moveAndDelay(MyServo::ServoAngle angle) {
+     unsigned int dynamicServoDelay = getServoDelay(angle);
+     _servo.write(angle);
+     delay(dynamicServoDelay); // must delay before detaching
 }
+
+unsigned int MyServo::getServoDelay(byte newAngle) {
+    byte currentAngle = _servo.read();
+    double delta = 0.0;
+    if (newAngle >= currentAngle) {
+        delta = ((newAngle - currentAngle) / 180.0);
+    } else {
+        delta = ((currentAngle - newAngle) / 180.0);
+    }
+    Serial.print("Servo delay from ");
+    Serial.print(currentAngle);
+    Serial.print(" to ");
+    Serial.print(newAngle);
+    Serial.print(" is ");
+    Serial.println(delta * _servoDelay);
+    delay(1500);
+    return (delta * _servoDelay);
+}
+
