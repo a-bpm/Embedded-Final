@@ -13,7 +13,7 @@ class MyServo {
     private:
         Servo _servo;
         byte _pin;
-        const byte _SERVO_SPEED;
+        const unsigned int _servoDelay;
 
     public:
         enum ServoPosition {
@@ -35,7 +35,10 @@ class MyServo {
         MyServo();
         MyServo(byte servoPin, byte servoSpeed);
 
-        void look(byte positionIndex);
-        int getServoDelay(byte newPosition);
+        void look(byte positionIndex); // TODO: improve this function's parameters
+                                       // it should be possible to not have to cast this as 
+                                       // enum to fit my general design idea
+        inline void moveAndDelay(MyServo::ServoAngle);
+        unsigned int getServoDelay(byte newAngle);
 }; // end MyServo
 #endif // END MYSERVO_HPP

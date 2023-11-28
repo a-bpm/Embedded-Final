@@ -21,6 +21,8 @@ void setup() {
 
     car = new Robot(speed);
     Serial.println("Made car");
+    car->scanDirection(Robot::ROBOT_MID);
+    delay(2000);
     /*
   // set up timer1 count
     TCNT1H = 0xF3;
@@ -47,21 +49,15 @@ int count = 0;
 // testing variable for sandbox loop
 bool debugging = true;
 
-const int DELAY = 3 * 1000;
+//const int DELAY = 5 * 1000;
+const int DELAY = 1000;
 void loop() 
 {
   // test loop
   if (debugging)
   {
-      Serial.println("Starting loop...");
-      for (int i = 0; i < 5; i++) {
-          Serial.println(car->scanDirection(i));
-          delay(DELAY);
-          delay(DELAY);
-          delay(DELAY);
-      }
-      Serial.println("Ending loop...");
-      delay(DELAY);
+      //car->scanDirection(0);
+      //car->scanDirection(4);
       //car->moveForward();
       //delay(DELAY);
 

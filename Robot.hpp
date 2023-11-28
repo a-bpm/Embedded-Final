@@ -27,7 +27,7 @@ extern const byte ULTRASONIC_ECHO_PIN;
 extern const byte SERVO_PIN;
 extern const byte IR_RECEIVER_PIN;
 
-extern const byte SERVO_SPEED;
+extern const unsigned int SERVO_DELAY;
 
 class Robot {
     private:
