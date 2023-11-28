@@ -11,7 +11,7 @@
 
 class MyServo {
     private:
-        Servo *_servo;
+        Servo _servo;
         byte _pin;
         const byte _SERVO_SPEED;
 
@@ -33,7 +33,7 @@ class MyServo {
         };
         // Constructor
         MyServo();
-        MyServo(byte servoPin);
+        MyServo(byte servoPin, byte servoSpeed);
 
         void look(byte positionIndex);
         int getServoDelay(byte newPosition);

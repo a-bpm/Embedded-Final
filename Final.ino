@@ -8,14 +8,12 @@
 
 /// Global Variables
     // hard coded stop distance
-const byte DISTANCE_THRESHOLD = 7;
+const byte DISTANCE_THRESHOLD_INCHES = 12;
 
 // hard variables
 byte speed = 200;
 Robot *car = NULL;
-const int DELAY = 2 * 1000;
 
-Servo servo;
   // set up speed and delay
 void setup() {
     // set up console
@@ -23,7 +21,6 @@ void setup() {
 
     car = new Robot(speed);
     Serial.println("Made car");
-    servo.attach(A2);
     /*
   // set up timer1 count
     TCNT1H = 0xF3;
@@ -50,37 +47,29 @@ int count = 0;
 // testing variable for sandbox loop
 bool debugging = true;
 
+const int DELAY = 3 * 1000;
 void loop() 
 {
   // test loop
   if (debugging)
   {
-    car->moveForward();
-        delay(DELAY);
+      Serial.println("Starting loop...");
+      for (int i = 0; i < 5; i++) {
+          Serial.println(car->scanDirection(i));
+          delay(DELAY);
+          delay(DELAY);
+          delay(DELAY);
+      }
+      Serial.println("Ending loop...");
+      delay(DELAY);
+      //car->moveForward();
+      //delay(DELAY);
 
-    car->stop();
-    delay(DELAY);
+      //car->stop();
+      //delay(DELAY);
 
-    servo.write(0);
-    delay(DELAY);
-    servo.write(90);
-    delay(DELAY);
-    servo.write(180);
-    delay(DELAY);
-    car->moveReverse();
-        delay(DELAY);
-
-
- /*
-    car->moveRight();
-    car->moveLeft();
-    car->moveReverse();
-    car->orientLeft();
-    car->orientRight();
-    car->orient180();
-    car->orient180();
-    car->orientRight();
-*/
+      //car->moveReverse();
+      //delay(DELAY);
   } /*
   else // main loop
   {

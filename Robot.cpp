@@ -23,30 +23,30 @@ const byte ULTRASONIC_ECHO_PIN = A0;
 const byte SERVO_PIN = A2;
 const byte IR_RECEIVER_PIN = 12;
 
+const byte SERVO_SPEED = 7;
+
 Robot::Robot() {}
 
 Robot::Robot(byte speed)
-    : _rightLeg{new Motor(MOTOR_RIGHT_FORWARD_PIN, MOTOR_RIGHT_BACKWARD_PIN,
-                MOTOR_RIGHT_ENABLE_PIN)},
-      _leftLeg{new Motor(MOTOR_LEFT_FORWARD_PIN, MOTOR_LEFT_BACKWARD_PIN,
-               MOTOR_LEFT_ENABLE_PIN)},
-      _eye{new Ultrasonic(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN)},
-      _neck{new MyServo(SERVO_PIN)},
-      _speed{speed}
-{
+: _rightLeg{new Motor(MOTOR_RIGHT_FORWARD_PIN, MOTOR_RIGHT_BACKWARD_PIN,
+                      MOTOR_RIGHT_ENABLE_PIN)},
+_leftLeg{new Motor(MOTOR_LEFT_FORWARD_PIN, MOTOR_LEFT_BACKWARD_PIN,
+                      MOTOR_LEFT_ENABLE_PIN)},
+_eye{new Ultrasonic(ULTRASONIC_TRIGGER_PIN, ULTRASONIC_ECHO_PIN)},
+_neck{MyServo(SERVO_PIN, SERVO_SPEED)},
+_speed{speed} {
     _leftLeg->setSpeed(_speed);
     _rightLeg->setSpeed(_speed);
   //_irReceiver.begin(IR_RECEIVER_PIN, true);
-}
+} // end Robot constructor
 
 // turning servo and getting measurement
 double Robot::scanDirection(RobotDirection direction) {
-  _neck->look(direction); // Set the servo to look @ desired direction
+  _neck.look(direction); // Set the servo to look @ desired direction
   double distance = _eye->measureInch();
 
-  // print in console
   Serial.print(distance);
-  Serial.print(" : Inches");
+  Serial.print(" inches");
 
   return distance;
 }
