@@ -58,6 +58,7 @@ double Robot::scanDirection(RobotDirection direction) {
 byte Robot::getTurnDirection() {
     const byte totalDistances = 5;
     double distances [totalDistances];
+    delay(250);
     distances[ROBOT_LEFT] = scanDirection(RobotDirection::ROBOT_LEFT);
     distances[ROBOT_LEFT_MID] = scanDirection(RobotDirection::ROBOT_LEFT_MID);
     distances[ROBOT_MID] = scanDirection(Robot::RobotDirection::ROBOT_MID);
@@ -72,6 +73,11 @@ byte Robot::getTurnDirection() {
         if (current > largest) {
             largestDistanceDirection = i;
             largest = distances[i];
+        }
+    }
+    if (largestDistanceDirection != ROBOT_MID) {
+        if (largest > 13 * 12) {
+            largestDistanceDirection = ROBOT_MID;
         }
     }
     // return the direction for the switch
