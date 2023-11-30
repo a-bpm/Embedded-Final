@@ -27,7 +27,7 @@ extern const byte ULTRASONIC_ECHO_PIN;
 extern const byte SERVO_PIN;
 extern const byte IR_RECEIVER_PIN;
 
-extern const unsigned int SERVO_DELAY;
+extern const unsigned long SERVO_DELAY;
 
 class Robot {
     private:
@@ -57,7 +57,7 @@ class Robot {
         double scanDirection(RobotDirection direction);
 
         // -checking left and right
-        byte getTurnDirection(double frontMeasure);
+        byte getTurnDirection();
 
         // US
         double measureDistance();

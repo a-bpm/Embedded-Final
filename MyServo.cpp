@@ -13,7 +13,7 @@ MyServo::MyServo()
 
 }
 
-MyServo::MyServo(byte servoPin, byte servoDelay)
+MyServo::MyServo(byte servoPin, unsigned long servoDelay)
 : _servo{}, _pin{servoPin}, _servoDelay{servoDelay} {
     _servo.detach();
 }
@@ -57,13 +57,6 @@ unsigned int MyServo::getServoDelay(byte newAngle) {
     } else {
         delta = ((currentAngle - newAngle) / 180.0);
     }
-    Serial.print("Servo delay from ");
-    Serial.print(currentAngle);
-    Serial.print(" to ");
-    Serial.print(newAngle);
-    Serial.print(" is ");
-    Serial.println(delta * _servoDelay);
-    delay(1500);
     return (delta * _servoDelay);
 }
 
