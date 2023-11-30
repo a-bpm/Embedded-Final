@@ -59,7 +59,6 @@ double Ultrasonic::measureInch() {
     if (duration > 0) {
         inches = duration / 74;
     }
-    // interrupted = false; TODO
     return inches;
 }
 
@@ -69,6 +68,5 @@ double Ultrasonic::measureCm() {
     if (duration > 0) {
         centimeters = duration / 29.1;
     }
-    // interrupted = false; TODO
     return centimeters;
 }

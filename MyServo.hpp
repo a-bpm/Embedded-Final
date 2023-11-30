@@ -13,7 +13,7 @@ class MyServo {
     private:
         Servo _servo;
         byte _pin;
-        const unsigned int _servoDelay;
+        const unsigned long _servoDelay;
 
     public:
         enum ServoPosition {
@@ -33,7 +33,7 @@ class MyServo {
         };
         // Constructor
         MyServo();
-        MyServo(byte servoPin, byte servoSpeed);
+        MyServo(byte servoPin, unsigned long servoSpeed);
 
         void look(byte positionIndex); // TODO: improve this function's parameters
                                        // it should be possible to not have to cast this as 
