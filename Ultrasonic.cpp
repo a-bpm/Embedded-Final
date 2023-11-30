@@ -42,7 +42,7 @@ unsigned long Ultrasonic::measureTime() {
     digitalWrite(_triggerPin, LOW);
 
     pinMode(_echoPin, INPUT);
-    duration = pulseIn(_echoPin, _maxDuration);
+    duration = pulseIn(_echoPin, HIGH);
 
     interrupts();
 

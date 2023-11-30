@@ -23,7 +23,7 @@ void setup() {
     Serial.begin(9600);
 
     car = new Robot(speed);
-    Serial.println("Made car");
+    car->init();
     /*
   // set up timer1 count
     TCNT1H = 0xF3;
@@ -50,77 +50,61 @@ int count = 0;
 // testing variable for debugging
 bool debugging = false;
 
-const int DELAY = 3 * 1000;
+const int DELAY = 1 * 1000;
 void loop() 
 {
-  // test loop
-  if (debugging)
-  {
-      car->orientRight();
-      delay(1000);
-      car->orientLeft();
-      delay(1000);
-  } 
-  else // main loop
-  {
-    // ir button trigger flag to override loop and take control
-    if(ultrasonicInterrupt) 
+    // test loop
+    if (debugging)
     {
-      //checkDirection
-
-      // turn off flag
-      ultrasonicInterrupt = false;
-    }
-
-    // TODO: how would we make this work with timers?
-    if(car->scanDirection(Robot::ROBOT_MID) >= DISTANCE_THRESHOLD_INCHES)      //If there are no objects within the stopping distance, move forward
+    } 
+    else // main loop
     {
-      // run motors dont stop
-      car->moveForward();
-      delay(DELAY);
-
-      // corrections during drive (global timer/ counter)
-
-      // occassionally look left and right to correct the robot
-
-      /* Dynamic
-      if (count % 5)
-      {
-        car.scanDirection(Robot::RobotDirection::ROBOT_LEFT); // scan left
-
-        car.scanDirection(Robot::RobotDirection::ROBOT_RIGHT); // scan right
-      }
-      count++;
-      */
-    }
-    else 
-    {  // if too close (past stop distance threshhold)
-       // get the decision whether to turn left or right
-
-        car->stop();                                     //Stop the motors
-        int turnDirection = car->getTurnDirection();
-        switch(turnDirection)
+        // ir button trigger flag to override loop and take control
+        if(ultrasonicInterrupt) 
         {
-            case Robot::ROBOT_LEFT: // Turn Left 
-                car->orientLeft();
-                break;
+            //checkDirection
 
-            case Robot::ROBOT_LEFT_MID: // Turn Right
-                break;
+            // turn off flag
+            ultrasonicInterrupt = false;
+        }
 
-            case Robot::ROBOT_MID: // Turn Right
-                break;
+        /* TODO: IR stuff
+           while(irStuff) {
 
-            case Robot::ROBOT_RIGHT_MID: // Turn Right
-                break;
+           }
+         */
 
-            case Robot::ROBOT_RIGHT: // Turn Right
-                car->orientRight();
-                break;
-        } // end switch
+        // TODO: how would we make this work with timers?
+        if(car->scanDirection(Robot::ROBOT_MID) > DISTANCE_THRESHOLD_INCHES)      //If there are no objects within the stopping distance, move forward
+        {
+            int turnDirection = car->getTurnDirection();
+            switch(turnDirection)
+            {
+                case Robot::ROBOT_LEFT: // Turn Left 
+                    car->tankTurnLeft();
+                    break;
+
+                case Robot::ROBOT_LEFT_MID: // Turn Right
+                    car->nudgeLeft();
+                    break;
+
+                case Robot::ROBOT_MID: // no turn
+                    break;
+
+                case Robot::ROBOT_RIGHT_MID: // slight right
+                    car->nudgeRight();
+                    break;
+
+                case Robot::ROBOT_RIGHT: // Turn Right
+                    car->tankTurnRight();
+                    break;
+            } // end switch
+            car->moveForward();
+        } else {
+            car->moveReverse();
+        } // end else
         delay(DELAY);
     }
-  }
 }
 
 ISR(TIMER_OCF_vect) {

@@ -42,34 +42,40 @@ Robot::Robot(byte speed)
 
 // turning servo and getting measurement
 double Robot::scanDirection(RobotDirection direction) {
+    this->stop();
     _neck.look(direction); // Set the servo to look @ desired direction
     double distance = _eye->measureInch();
 
     Serial.print(distance);
-    Serial.println(" inches");
+    Serial.print(" inches ");
+    Serial.print(" in ");
+    Serial.println(direction);
     return distance;
 }
 
 // getting measurements on both sides and return which direction to turn based
 // on measurement values
 byte Robot::getTurnDirection() {
-    // set up declare distances and direction variables
-    byte turnDir = 0;
+    const byte totalDistances = 5;
+    double distances [totalDistances];
+    distances[ROBOT_LEFT] = scanDirection(RobotDirection::ROBOT_LEFT);
+    distances[ROBOT_LEFT_MID] = scanDirection(RobotDirection::ROBOT_LEFT_MID);
+    distances[ROBOT_MID] = scanDirection(Robot::RobotDirection::ROBOT_MID);
+    distances[ROBOT_RIGHT_MID] = scanDirection(RobotDirection::ROBOT_RIGHT_MID);
+    distances[ROBOT_RIGHT] = scanDirection(RobotDirection::ROBOT_RIGHT);
 
-    double frontDistance = scanDirection(Robot::RobotDirection::ROBOT_MID);
-    double leftDistance = scanDirection(RobotDirection::ROBOT_LEFT);
-    double rightDistance = scanDirection(RobotDirection::ROBOT_RIGHT);
-
-    if (frontDistance > leftDistance && frontDistance > rightDistance) {
-        turnDir = ROBOT_MID;
-    } else if (leftDistance > rightDistance) {
-        turnDir = ROBOT_LEFT;
-    } else {
-        turnDir = ROBOT_RIGHT;
-    }
     _neck.look(ROBOT_MID);
+    double largest = 0.0;
+    int largestDistanceDirection = 0;
+    for (int i = 0; i < totalDistances; i++) {
+        double current = distances[i];
+        if (current > largest) {
+            largestDistanceDirection = i;
+            largest = distances[i];
+        }
+    }
     // return the direction for the switch
-    return turnDir;
+    return largestDistanceDirection;
 }
 
 /* TODO: DYNAMIC MOVEMENT, 
@@ -116,6 +122,7 @@ byte Robot::getTurnDirection() {
 void Robot::stop() {
     _rightLeg->run(Motor::MotorDirection::MotorStop);
     _leftLeg->run(Motor::MotorDirection::MotorStop);
+    delay(100);
 }
 
 void Robot::moveForward() {
@@ -128,24 +135,39 @@ void Robot::moveReverse() {
     _leftLeg->run(Motor::MotorReverse);
 }
 
-void Robot::orientLeft() {
+void Robot::tankTurnLeft() {
     _rightLeg->run(Motor::MotorDirection::MotorForward);
     _leftLeg->run(Motor::MotorDirection::MotorReverse);
     delay(275);
     this->stop();
 }
 
-void Robot::orientRight() {
+void Robot::nudgeLeft() {
+    _rightLeg->run(Motor::MotorDirection::MotorForward);
+    _leftLeg->run(Motor::MotorDirection::MotorReverse);
+    delay(137);
+    this->stop();
+}
+
+void Robot::tankTurnRight() {
     _rightLeg->run(Motor::MotorDirection::MotorReverse);
     _leftLeg->run(Motor::MotorDirection::MotorForward);
     delay(275);
     this->stop();
 }
 
-void Robot::orient180() {
+void Robot::nudgeRight() {
+    _rightLeg->run(Motor::MotorDirection::MotorReverse);
+    _leftLeg->run(Motor::MotorDirection::MotorForward);
+    delay(137);
+    this->stop();
+}
+
+
+void Robot::tankTurn180() {
     _rightLeg->run(Motor::MotorDirection::MotorForward);
     _leftLeg->run(Motor::MotorDirection::MotorReverse);
-    delay(275);
+    delay(550);
     this->stop();
 }
 
@@ -166,3 +188,7 @@ void Robot::moveRight() {
     _leftLeg->setSpeed(_rightLeg->getSpeed());
 }
 
+void Robot::init() {
+    _neck.look(ROBOT_MID);
+    this->stop();
+}

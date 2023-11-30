@@ -52,6 +52,7 @@ class Robot {
         Robot(byte speed);
 
       // methods
+        void init();
 
         // looking (turning servo doing specific delay and measuring the distance)
         double scanDirection(RobotDirection direction);
@@ -77,9 +78,11 @@ class Robot {
         
 
         // -stationary
-        void orientLeft();
-        void orientRight();
-        void orient180();
+        void tankTurnLeft();
+        void nudgeRight();
+        void tankTurnRight();
+        void nudgeLeft();
+        void tankTurn180();
 
 }; // end Robot
 #endif // End ROBOT_HPP
