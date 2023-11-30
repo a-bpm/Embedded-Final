@@ -7,10 +7,10 @@
 #include "Robot.hpp"
 
 /// Global Variables
-const byte DISTANCE_THRESHOLD_INCHES = 12;
+const byte DISTANCE_THRESHOLD_INCHES = 10;
 
 // hard variables
-const byte speed = 200;
+const byte speed = 150;
 const unsigned long MOTOR_DELAY = 275;
 Robot *car = NULL;
 
@@ -22,40 +22,53 @@ void setup() {
     car->init();
 }
 
-const int DELAY = 2 * 1000;
+const int DELAY = 1000;
+bool speedChanged = false;
 void loop() 
 {
     delay(250);
-    if (false) // IR placeholder
+    if(car->scanDirection(Robot::ROBOT_RIGHT_MID) > DISTANCE_THRESHOLD_INCHES ||
+       car->scanDirection(Robot::ROBOT_LEFT_MID) > DISTANCE_THRESHOLD_INCHES ||
+       car->scanDirection(Robot::ROBOT_MID) > DISTANCE_THRESHOLD_INCHES)      //If there are no objects within the stopping distance, move forward
     {
+        byte turnDirection = car->getTurnDirection();
+        if (car->_direction == Robot::ROBOT_LEFT && car->_prevDirection == Robot::ROBOT_LEFT) {
+            turnDirection = Robot::ROBOT_RIGHT;
+        }
 
-    } else if(car->scanDirection(Robot::ROBOT_MID) > DISTANCE_THRESHOLD_INCHES)      //If there are no objects within the stopping distance, move forward
-    {
-        int turnDirection = car->getTurnDirection();
+        if (car->_direction == Robot::ROBOT_RIGHT && car->_prevDirection == Robot::ROBOT_RIGHT) {
+            turnDirection = Robot::ROBOT_LEFT;
+        }
+
         switch(turnDirection)
         {
             case Robot::ROBOT_LEFT: // Turn Left 
                 car->tankTurnLeft();
                 break;
-
+/*
             case Robot::ROBOT_LEFT_MID: // Turn Right
                 car->nudgeLeft();
                 break;
-
+*/
             case Robot::ROBOT_MID: // no turn
                 break;
-
+/*
             case Robot::ROBOT_RIGHT_MID: // slight right
                 car->nudgeRight();
                 break;
-
+*/
             case Robot::ROBOT_RIGHT: // Turn Right
                 car->tankTurnRight();
                 break;
         } // end switch
         car->moveForward();
     } else {
+        car->setSpeed(110);
         car->moveReverse();
+        speedChanged = true;
     } // end else
     delay(DELAY);
+    if (speedChanged) {
+        car->setSpeed(speed);
+    }
 }

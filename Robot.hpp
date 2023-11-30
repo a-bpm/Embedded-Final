@@ -35,9 +35,10 @@ class Robot {
         Motor *_leftLeg;
         Ultrasonic *_eye;
         MyServo _neck;
-        byte _speed;
         //IRrecv _irReceiver; // Not sure how I wanna handle ANYTHING related to this
     public:
+        byte _direction;
+        byte _prevDirection;
       // specify the look trajectory for coresponding robot
         enum RobotDirection {
             ROBOT_LEFT = 0,
@@ -60,14 +61,12 @@ class Robot {
         // -checking left and right
         byte getTurnDirection();
 
-        // US
-        double measureDistance();
-
         // -dynamic
         //byte correctDirection(); TODO
         
         // movement
         void stop();
+        void setSpeed(byte speed);
 
         // -dynamic 
         void moveForward();
