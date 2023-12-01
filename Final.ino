@@ -65,6 +65,8 @@ void loop()
     } else {
         car->setSpeed(110);
         car->moveReverse();
+        car->_prevDirection = car->_direction;
+        car->_direction = Robot::ROBOT_REVERSE;
         speedChanged = true;
     } // end else
     delay(DELAY);

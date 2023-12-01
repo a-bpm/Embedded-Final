@@ -79,9 +79,9 @@ byte Robot::getTurnDirection() {
     double distances [totalDistances];
     delay(250);
     distances[ROBOT_LEFT] = scanDirection(RobotDirection::ROBOT_LEFT);
-    distances[ROBOT_LEFT_MID] = scanDirection(RobotDirection::ROBOT_LEFT_MID);
+    distances[ROBOT_LEFT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_LEFT_MID));
     distances[ROBOT_MID] = scanDirection(Robot::RobotDirection::ROBOT_MID);
-    distances[ROBOT_RIGHT_MID] = scanDirection(RobotDirection::ROBOT_RIGHT_MID);
+    distances[ROBOT_RIGHT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_RIGHT_MID));
     distances[ROBOT_RIGHT] = scanDirection(RobotDirection::ROBOT_RIGHT);
 
     _neck.look(ROBOT_MID);

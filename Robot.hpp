@@ -41,6 +41,7 @@ class Robot {
         byte _prevDirection;
       // specify the look trajectory for coresponding robot
         enum RobotDirection {
+            ROBOT_REVERSE = -1,
             ROBOT_LEFT = 0,
             ROBOT_LEFT_MID = 1,
             ROBOT_MID = 2,
