@@ -21,7 +21,7 @@ const byte ULTRASONIC_TRIGGER_PIN = A1;
 const byte ULTRASONIC_ECHO_PIN = A0;
 
 const byte SERVO_PIN = A2;
-const byte IR_RECEIVER_PIN = 12;
+
 
 const unsigned long SERVO_DELAY = 600; // servo takes 550ms to go from 0 to 180
 
@@ -79,9 +79,9 @@ byte Robot::getTurnDirection() {
     double distances [totalDistances];
     delay(250);
     distances[ROBOT_LEFT] = scanDirection(RobotDirection::ROBOT_LEFT);
-    distances[ROBOT_LEFT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_LEFT_MID));
+    distances[ROBOT_LEFT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_LEFT_MID));  // cosine of 45 
     distances[ROBOT_MID] = scanDirection(Robot::RobotDirection::ROBOT_MID);
-    distances[ROBOT_RIGHT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_RIGHT_MID));
+    distances[ROBOT_RIGHT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_RIGHT_MID));   // cosine of 45
     distances[ROBOT_RIGHT] = scanDirection(RobotDirection::ROBOT_RIGHT);
 
     _neck.look(ROBOT_MID);

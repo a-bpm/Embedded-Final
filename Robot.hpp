@@ -8,7 +8,7 @@
 #define ROBOT_HPP
 
 #include <Arduino.h>
-//#include <IRremote.hpp>
+
 #include "Motor.hpp"
 #include "Ultrasonic.hpp"
 #include "MyServo.hpp"
@@ -25,7 +25,7 @@ extern const byte ULTRASONIC_TRIGGER_PIN;
 extern const byte ULTRASONIC_ECHO_PIN;
 
 extern const byte SERVO_PIN;
-extern const byte IR_RECEIVER_PIN;
+
 
 extern const unsigned long SERVO_DELAY;
 
