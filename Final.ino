@@ -5,124 +5,207 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Robot.hpp"
-
+#include <IRremote.hpp>
 /// Global Variables
-    // hard coded stop distance
-const byte DISTANCE_THRESHOLD_INCHES = 12;
+const byte DISTANCE_THRESHOLD_INCHES = 10;
 
+const byte IR_RECEIVER_PIN = 12;
 // hard variables
-byte speed = 200;
+const byte speed = 150;
+const unsigned long MOTOR_DELAY = 275;
 Robot *car = NULL;
 
   // set up speed and delay
 void setup() {
     // set up console
-    while(!Serial){
-
-    }
     Serial.begin(9600);
-
     car = new Robot(speed);
-    Serial.println("Made car");
-    /*
-  // set up timer1 count
-    TCNT1H = 0xF3;
-    TCNT1L = 0xCB;
-  
-  // set up timer1 mode: normal
-    TCCR1A = 0x00;
-  
-  // Set up  clock in TCCR1B
-    TCCR1B = (1 << CS10) | (1 << CS12); // Prescaler = 1024
-  
-  // set up timer1 interupt
-    TIMSK1 = (1 << TOIE1);
-
-  // enable global interupts
-    interrupts();
-    */
+    car->init();
+    IrReceiver.begin(IR_RECEIVER_PIN, true);
 }
 
-bool ultrasonicInterrupt = true;
-// global count for the correction durring movement
-int count = 0;
+enum IRbutton {
+  IR_UP_BUTTON = 70,
+  IR_RIGHT_BUTTON = 67,
+  IR_DOWN_BUTTON = 21,
+  IR_LEFT_BUTTON = 68,
+  IR_OK_BUTTON = 64,
+  IR_STAR_BUTTON = 66,
+  IR_HASH_BUTTON = 74,
+  IR_ROKU_UP_BUTTON = 153,
+  IR_ROKU_DOWN_BUTTON = 179,
+  IR_ROKU_LEFT_BUTTON = 158,
+  IR_ROKU_RIGHT_BUTTON = 173,
+  IR_ROKU_OK_BUTTON = 42,
+};
 
-// testing variable for debugging
-bool debugging = false;
-
-const int DELAY = 3 * 1000;
+const int DELAY = 1000;
+bool speedChanged = false;
+int flag = 0;
+int sent = 1;
 void loop() 
 {
-  // test loop
-  if (debugging)
-  {
-      car->orientRight();
-      delay(1000);
-      car->orientLeft();
-      delay(1000);
-  } 
-  else // main loop
-  {
-    // ir button trigger flag to override loop and take control
-    if(ultrasonicInterrupt) 
+  delay(250);
+  int buttonCode = 0;  // init IR button variable
+    if (IrReceiver.decode()) {  // decodes the incoming data
+        
+        // takes decoded input of IR receiver and put it into switch case
+        buttonCode = IrReceiver.decodedIRData.command; 
+        String buttonPressed = "";
+        if(buttonCode == IR_STAR_BUTTON) {
+            flag = 1;
+        } // end of if
+        while (flag != 0)
+        {
+            sent = 1;
+            // loop through
+            if (IrReceiver.decode())
+            {
+                // initialize string output variable
+                buttonCode = IrReceiver.decodedIRData.command;
+                buttonPressed = ""; 
+                
+                switch(buttonCode) {
+                    case IR_UP_BUTTON:
+                        buttonPressed = " UP";
+                        car->moveForward();
+                        break;
+
+                    case IR_RIGHT_BUTTON:
+                        buttonPressed = "RIGHT";
+                        car->tankTurnRight();
+                        break;
+
+                    case IR_DOWN_BUTTON:
+                        buttonPressed = " DOWN";
+                        car->setSpeed(110);
+                        car->moveReverse();
+                        car->_prevDirection = car->_direction;
+                        car->_direction = Robot::ROBOT_REVERSE;
+                        speedChanged = true;
+                    
+                        delay(DELAY);
+                        if (speedChanged) {
+                          car->setSpeed(speed);
+                        }
+                        break;
+
+                    case IR_LEFT_BUTTON:
+                        buttonPressed = " LEFT";
+                        car->tankTurnLeft();
+                        break;
+
+                    case IR_OK_BUTTON:
+                        buttonPressed = " STOP";
+                        car->stop();
+                        break;
+
+                    case IR_STAR_BUTTON:
+                        buttonPressed = "REMOTE ON";
+                        break;
+
+                    case IR_HASH_BUTTON:
+                        buttonPressed = "QUIT";
+                        sent = 0;
+                        break;
+
+                    case IR_ROKU_UP_BUTTON:
+                        buttonPressed = " UP";
+                        car->moveForward();
+                        break;
+
+                    case IR_ROKU_DOWN_BUTTON:
+                        buttonPressed = " DOWN";
+                        car->setSpeed(110);
+                        car->moveReverse();
+                        car->_prevDirection = car->_direction;
+                        car->_direction = Robot::ROBOT_REVERSE;
+                        speedChanged = true;
+                    
+                        delay(DELAY);
+                        if (speedChanged) {
+                          car->setSpeed(speed);
+                        }
+                        break;
+
+                    case IR_ROKU_LEFT_BUTTON:
+                        buttonPressed = " LEFT";
+                        car->tankTurnLeft();
+                        break;
+
+                    case IR_ROKU_RIGHT_BUTTON:
+                        buttonPressed = " RIGHT";
+                        car->tankTurnRight();
+                        break;
+                        
+                    case IR_ROKU_OK_BUTTON:
+                        buttonPressed = " STOP";
+                        car->stop();
+                        break;
+
+                    default:
+                        break;  // there to remind that we need it incase no 
+                } // end switch
+                Serial.println(buttonPressed);  // print the string variable
+                Serial.println(buttonCode);
+                IrReceiver.resume();
+                if (sent == 0)
+                {
+                    flag = 0; 
+                }
+            } // end of if
+        } // end of while
+        IrReceiver.resume();  // resumes waiting for input
+    } // end decode if
+
+    delay(250);
+    if(car->scanDirection(Robot::ROBOT_RIGHT_MID) > DISTANCE_THRESHOLD_INCHES ||
+       car->scanDirection(Robot::ROBOT_LEFT_MID) > DISTANCE_THRESHOLD_INCHES ||
+       car->scanDirection(Robot::ROBOT_MID) > DISTANCE_THRESHOLD_INCHES)      //If there are no objects within the stopping distance, move forward
     {
-      //checkDirection
+        byte turnDirection = car->getTurnDirection();
+        if (car->_direction == Robot::ROBOT_LEFT && car->_prevDirection == Robot::ROBOT_LEFT) {
+            turnDirection = Robot::ROBOT_RIGHT;
+        }
 
-      // turn off flag
-      ultrasonicInterrupt = false;
-    }
+        if (car->_direction == Robot::ROBOT_RIGHT && car->_prevDirection == Robot::ROBOT_RIGHT) {
+            turnDirection = Robot::ROBOT_LEFT;
+        }
 
-    // TODO: how would we make this work with timers?
-    if(car->scanDirection(Robot::ROBOT_MID) >= DISTANCE_THRESHOLD_INCHES)      //If there are no objects within the stopping distance, move forward
-    {
-      // run motors dont stop
-      car->moveForward();
-      delay(DELAY);
-
-      // corrections during drive (global timer/ counter)
-
-      // occassionally look left and right to correct the robot
-
-      /* Dynamic
-      if (count % 5)
-      {
-        car.scanDirection(Robot::RobotDirection::ROBOT_LEFT); // scan left
-
-        car.scanDirection(Robot::RobotDirection::ROBOT_RIGHT); // scan right
-      }
-      count++;
-      */
-    }
-    else 
-    {  // if too close (past stop distance threshhold)
-       // get the decision whether to turn left or right
-
-        car->stop();                                     //Stop the motors
-        int turnDirection = car->getTurnDirection();
         switch(turnDirection)
         {
             case Robot::ROBOT_LEFT: // Turn Left 
-                car->orientLeft();
+                car->tankTurnLeft();
                 break;
-
+/*
             case Robot::ROBOT_LEFT_MID: // Turn Right
+                car->nudgeLeft();
                 break;
-
-            case Robot::ROBOT_MID: // Turn Right
+*/
+            case Robot::ROBOT_MID: // no turn
                 break;
-
-            case Robot::ROBOT_RIGHT_MID: // Turn Right
+/*
+            case Robot::ROBOT_RIGHT_MID: // slight right
+                car->nudgeRight();
                 break;
-
+*/
             case Robot::ROBOT_RIGHT: // Turn Right
-                car->orientRight();
+                car->tankTurnRight();
                 break;
         } // end switch
-        delay(DELAY);
-    }
-  }
-}
+        car->moveForward();
+    } // end if
+    
+    else {
+        car->setSpeed(110);
+        car->moveReverse();
+        car->_prevDirection = car->_direction;
+        car->_direction = Robot::ROBOT_REVERSE;
+        speedChanged = true;
+    } // end else
 
-ISR(TIMER_OCF_vect) {
-    ultrasonicInterrupt = true;
+    delay(DELAY);
+    if (speedChanged) {
+        car->setSpeed(speed);
+    }
 }
