@@ -36,7 +36,6 @@ Robot::Robot(byte speed)
     _neck{MyServo(SERVO_PIN, SERVO_DELAY)} {
         _leftLeg->setSpeed(speed);
         _rightLeg->setSpeed(speed);
-        //_irReceiver.begin(IR_RECEIVER_PIN, true);
     } // end Robot constructor
 
 // turning servo and getting measurement
@@ -155,6 +154,8 @@ void Robot::tankTurnLeft() {
     _leftLeg->run(Motor::MotorDirection::MotorReverse);
     delay(325);
     this->stop();
+    delay(250);
+
 }
 
 void Robot::nudgeLeft() {
@@ -169,6 +170,7 @@ void Robot::tankTurnRight() {
     _leftLeg->run(Motor::MotorDirection::MotorForward);
     delay(325);
     this->stop();
+    delay(250);
 }
 
 void Robot::nudgeRight() {

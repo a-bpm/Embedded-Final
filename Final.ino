@@ -6,23 +6,13 @@
 
 #include "Robot.hpp"
 #include <IRremote.hpp>
-/// Global Variables
-const byte DISTANCE_THRESHOLD_INCHES = 10;
+
+/// Global Variable Pins
+const byte DISTANCE_THRESHOLD_INCHES = 5
 
 const byte IR_RECEIVER_PIN = 12;
-// hard variables
-const byte speed = 150;
-const unsigned long MOTOR_DELAY = 275;
-Robot *car = NULL;
 
-  // set up speed and delay
-void setup() {
-    // set up console
-    Serial.begin(9600);
-    car = new Robot(speed);
-    car->init();
-    IrReceiver.begin(IR_RECEIVER_PIN, true);
-}
+// hard variables
 
 enum IRbutton {
   IR_UP_BUTTON = 70,
@@ -37,12 +27,28 @@ enum IRbutton {
   IR_ROKU_LEFT_BUTTON = 158,
   IR_ROKU_RIGHT_BUTTON = 173,
   IR_ROKU_OK_BUTTON = 42,
+  IR_ROKU_BACK_BUTTON = 102,
+  IR_ROKU_HOME_BUTTON = 3,
 };
+
+int flag = 0;
+int sent = 1;
+const byte speed = 125;
+const unsigned long MOTOR_DELAY = 275;
+Robot *car = NULL;
+
+  // set up speed and delay
+void setup() {
+    // set up console
+    Serial.begin(9600);
+    car = new Robot(speed);
+    car->init();
+    IrReceiver.begin(IR_RECEIVER_PIN, true);
+}
 
 const int DELAY = 1000;
 bool speedChanged = false;
-int flag = 0;
-int sent = 1;
+
 void loop() 
 {
   delay(250);
@@ -52,7 +58,11 @@ void loop()
         // takes decoded input of IR receiver and put it into switch case
         buttonCode = IrReceiver.decodedIRData.command; 
         String buttonPressed = "";
-        if(buttonCode == IR_STAR_BUTTON) {
+        if(buttonCode == IR_STAR_BUTTON || buttonCode == IR_ROKU_BACK_BUTTON) {
+          // stop the instruction
+            car->stop();
+          
+          // set the while loop flag to true
             flag = 1;
         } // end of if
         while (flag != 0)
@@ -143,6 +153,15 @@ void loop()
                         car->stop();
                         break;
 
+                    case IR_ROKU_BACK_BUTTON:
+                        buttonPressed = "REMOTE ON";
+                        break;
+                    
+                    case IR_ROKU_HOME_BUTTON:
+                        buttonPressed = "QUIT";
+                        sent = 0;
+                        break;
+
                     default:
                         break;  // there to remind that we need it incase no 
                 } // end switch
@@ -159,18 +178,11 @@ void loop()
     } // end decode if
 
     delay(250);
-    if(car->scanDirection(Robot::ROBOT_RIGHT_MID) > DISTANCE_THRESHOLD_INCHES ||
-       car->scanDirection(Robot::ROBOT_LEFT_MID) > DISTANCE_THRESHOLD_INCHES ||
+    if(/*car->scanDirection(Robot::ROBOT_RIGHT_MID) > DISTANCE_THRESHOLD_INCHES ||
+       car->scanDirection(Robot::ROBOT_LEFT_MID) > DISTANCE_THRESHOLD_INCHES ||*/
        car->scanDirection(Robot::ROBOT_MID) > DISTANCE_THRESHOLD_INCHES)      //If there are no objects within the stopping distance, move forward
     {
         byte turnDirection = car->getTurnDirection();
-        if (car->_direction == Robot::ROBOT_LEFT && car->_prevDirection == Robot::ROBOT_LEFT) {
-            turnDirection = Robot::ROBOT_RIGHT;
-        }
-
-        if (car->_direction == Robot::ROBOT_RIGHT && car->_prevDirection == Robot::ROBOT_RIGHT) {
-            turnDirection = Robot::ROBOT_LEFT;
-        }
 
         switch(turnDirection)
         {
