@@ -1,7 +1,8 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     Filename: Robot.hpp
     Written by: Kevin Kostage and Andrew Bryan
-    Description: Does something?
+    Description: Abstracts an arduino-powered car with 2 Motors,
+                 Ultrasonic sensor, and Servo members
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifndef ROBOT_HPP
@@ -35,7 +36,6 @@ class Robot {
         Motor *_leftLeg;
         Ultrasonic *_eye;
         MyServo _neck;
-        //IRrecv _irReceiver; // Not sure how I wanna handle ANYTHING related to this
     public:
         byte _direction;
         byte _prevDirection;
@@ -63,7 +63,7 @@ class Robot {
         byte getTurnDirection();
 
         // -dynamic
-        //byte correctDirection(); TODO
+        //byte correctDirection(); 
         
         // movement
         void stop();

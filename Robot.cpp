@@ -1,7 +1,8 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
-Filename: Robot.cpp
-Written by: Kevin Kostage and Andrew Bryan
-Description: Does something?
+    Filename: Robot.cpp
+    Written by: Kevin Kostage and Andrew Bryan
+    Description: Abstracts an arduino-powered car with 2 Motors,
+                 Ultrasonic sensor, and Servo members
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Robot.hpp"
@@ -74,16 +75,18 @@ double Robot::scanDirection(RobotDirection direction) {
 // getting measurements on both sides and return which direction to turn based
 // on measurement values
 byte Robot::getTurnDirection() {
-    const byte totalDistances = 5;
+    const byte totalDistances = 3;
     double distances [totalDistances];
     delay(250);
     distances[ROBOT_LEFT] = scanDirection(RobotDirection::ROBOT_LEFT);
-    distances[ROBOT_LEFT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_LEFT_MID));  // cosine of 45 
+    distances[ROBOT_LEFT_MID] = 0;
+    //distances[ROBOT_LEFT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_LEFT_MID));  // cosine of 45 
     distances[ROBOT_MID] = scanDirection(Robot::RobotDirection::ROBOT_MID);
-    distances[ROBOT_RIGHT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_RIGHT_MID));   // cosine of 45
+    distances[ROBOT_RIGHT_MID] = 0;
+    //distances[ROBOT_RIGHT_MID] = (0.71 * scanDirection(RobotDirection::ROBOT_RIGHT_MID));   // cosine of 45
     distances[ROBOT_RIGHT] = scanDirection(RobotDirection::ROBOT_RIGHT);
-
     _neck.look(ROBOT_MID);
+
     double largest = 0.0;
     int largestDistanceDirection = 0;
     for (int i = 0; i < totalDistances; i++) {
@@ -96,7 +99,7 @@ byte Robot::getTurnDirection() {
 
     switch (largestDistanceDirection) {
         case ROBOT_LEFT:
-            if (distances[largestDistanceDirection] > 400 &&
+            if (distances[ROBOT_LEFT] > 400 &&
                 distances[ROBOT_MID] < 400 &&
                 distances[ROBOT_RIGHT] < 400)
             {
@@ -105,7 +108,7 @@ byte Robot::getTurnDirection() {
                 break;
 
         case ROBOT_MID:
-            if (distances[largestDistanceDirection] > 400 &&
+            if (distances[ROBOT_MID] > 400 &&
                 distances[ROBOT_LEFT] < 400 &&
                 distances[ROBOT_RIGHT] < 400)
             {
@@ -114,7 +117,7 @@ byte Robot::getTurnDirection() {
                 break;
 
         case ROBOT_RIGHT:
-            if (distances[largestDistanceDirection] > 400 &&
+            if (distances[ROBOT_RIGHT] > 400 &&
                 distances[ROBOT_LEFT] < 400 &&
                 distances[ROBOT_MID] < 400)
             {
@@ -122,7 +125,6 @@ byte Robot::getTurnDirection() {
             }
                 break;
     }
-    // dont turn in the same direction twice
     _prevDirection = _direction;
     _direction = largestDistanceDirection;
     return largestDistanceDirection;
@@ -130,7 +132,7 @@ byte Robot::getTurnDirection() {
 
 void Robot::setSpeed(byte speed) {
     this->_leftLeg->setSpeed(speed);
-    this->_rightLeg->setSpeed(speed);
+    this->_rightLeg->setSpeed(speed+45);
 }
 
 void Robot::stop() {
@@ -152,10 +154,9 @@ void Robot::moveReverse() {
 void Robot::tankTurnLeft() {
     _rightLeg->run(Motor::MotorDirection::MotorForward);
     _leftLeg->run(Motor::MotorDirection::MotorReverse);
-    delay(325);
+    delay(650);
     this->stop();
     delay(250);
-
 }
 
 void Robot::nudgeLeft() {
@@ -168,7 +169,7 @@ void Robot::nudgeLeft() {
 void Robot::tankTurnRight() {
     _rightLeg->run(Motor::MotorDirection::MotorReverse);
     _leftLeg->run(Motor::MotorDirection::MotorForward);
-    delay(325);
+    delay(650);
     this->stop();
     delay(250);
 }
@@ -179,7 +180,6 @@ void Robot::nudgeRight() {
     delay(80);
     this->stop();
 }
-
 
 void Robot::tankTurn180() {
     _rightLeg->run(Motor::MotorDirection::MotorForward);
