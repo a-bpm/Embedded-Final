@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     Filename: MyServo.hpp
     Written by: Kevin Kostage and Andrew Bryan
-    Description: Does something?
+    Description: Abstracts a servo component to allow for easy movement
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifndef MYSERVO_HPP
@@ -35,10 +35,12 @@ class MyServo {
         MyServo();
         MyServo(byte servoPin, unsigned long servoSpeed);
 
-        void look(byte positionIndex); // TODO: improve this function's parameters
-                                       // it should be possible to not have to cast this as 
-                                       // enum to fit my general design idea
+        void look(byte positionIndex); 
+        void lookNoDelay(byte positionIndex);
+                                       
+                                       
         inline void moveAndDelay(MyServo::ServoAngle);
+        inline void moveNoDelay(MyServo::ServoAngle);
         unsigned int getServoDelay(byte newAngle);
 }; // end MyServo
 #endif // END MYSERVO_HPP

@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     Filename: Ultrasonic.cpp
     Written by: Kevin Kostage and Andrew Bryan
-    Description: Does something?
+    Description: Abstracts an Ultrasonic sensor component
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Ultrasonic.hpp"

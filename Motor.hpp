@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     Filename: Motor.hpp
     Written by: Kevin Kostage and Andrew Bryan
-    Description: Does something?
+    Description: Abstracts a hobby motor component
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifndef MOTOR_HPP
@@ -30,4 +30,4 @@ class Motor {
         void run(int direction);
 
 }; // end motor
-#endif
+#endif // end MOTOR_HPP

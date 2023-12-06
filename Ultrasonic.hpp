@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     Filename: Ultrasonic.hpp
     Written by: Kevin Kostage and Andrew Bryan
-    Description: Does something?
+    Description: Abstracts an Ultrasonic sensor component
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifndef ULTRASONIC_HPP

@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     Filename: Motor.cpp
     Written by: Kevin Kostage and Andrew Bryan
-    Description: Does something?
+    Description: Abstracts a hobby motor component
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Motor.hpp"

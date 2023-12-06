@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * 
     Filename: MyServo.cpp
     Written by: Kevin Kostage and Andrew Bryan
-    Description: Does something?
+    Description: Abstracts a servo component to allow for easy movement
  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "MyServo.hpp"
@@ -15,6 +15,31 @@ MyServo::MyServo()
 
 MyServo::MyServo(byte servoPin, unsigned long servoDelay)
 : _servo{}, _pin{servoPin}, _servoDelay{servoDelay} {
+    _servo.detach();
+}
+
+void MyServo::lookNoDelay(byte positionIndex) {
+    _servo.attach(_pin);
+    switch(positionIndex) {
+        case SERVO_POSITION_1:
+            moveNoDelay(SERVO_LEFT);
+            break;
+
+        case SERVO_POSITION_2:
+            moveNoDelay(SERVO_LEFT_MID);
+            break;
+
+        case SERVO_POSITION_3:
+            moveNoDelay(SERVO_MID);
+            break;
+
+        case SERVO_POSITION_4:
+            moveNoDelay(SERVO_RIGHT_MID);
+            break;
+
+        case SERVO_POSITION_5:
+            moveNoDelay(SERVO_RIGHT);
+    }
     _servo.detach();
 }
 
@@ -49,6 +74,10 @@ inline void MyServo::moveAndDelay(MyServo::ServoAngle angle) {
      delay(dynamicServoDelay); // must delay before detaching
 }
 
+inline void MyServo::moveNoDelay(MyServo::ServoAngle angle) {
+     _servo.write(angle);
+}
+
 unsigned int MyServo::getServoDelay(byte newAngle) {
     byte currentAngle = _servo.read();
     double delta = 0.0;
@@ -59,4 +88,3 @@ unsigned int MyServo::getServoDelay(byte newAngle) {
     }
     return (delta * _servoDelay);
 }
-
